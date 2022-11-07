@@ -77,9 +77,7 @@ FROM Vehicle
 where v_status = "FOR SALE"
 order by v_make, v_year asc;
 
---Mechanic adds new part in database
-INSERT INTO Part(p_partName, p_isOEM, p_partCost)
-    VALUES ();
+
 
 
 
