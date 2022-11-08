@@ -49,7 +49,7 @@ WHERE v_VIN = '5FNYF18617RT8GPDT';
 --Mechanic fills out repair work order
 UPDATE Vehicle
 SET v_status = 'FOR REPAIR'
-WHERE v_VIN = 'KL1TC5EE4B536UYLJ'
+WHERE v_VIN = 'KL1TC5EE4B536UYLJ';
 
 INSERT INTO Service(sv_serviceType,sv_date,sv_VIN,sv_partKey,sv_equipmentKey,sv_cID,sv_mID,sv_partCost,sv_partQty,sv_totalCost)
     VALUES ('Battery Replacement','2022-11-02','KL1TC5EE4B536UYLJ','4','','','7','50','1','130');
@@ -66,7 +66,7 @@ INSERT INTO Customer(c_name, c_phone)
 INSERT INTO Service(sv_serviceType,sv_date,sv_VIN,sv_partKey,sv_equipmentKey,sv_cID,sv_mID,sv_partCost,sv_partQty,sv_totalCost)
     VALUES ('Brake Change','2021-12-15','WAUKF38E48DZ4WUTZ','3','2',(SELECT c_ID FROM Customer WHERE c_name = 'Jacob Lewsey'),'11','20','1','40');
 
---Customer wants to check if car is pre-owned (returns the number of times this car has shown up in the database)
+--Customer wants to check if car is pre-owned (returns the number of times this car has been sold in the database)
 SELECT count(*)
 FROM Vehicle
 inner join Sales on v_VIN = s_VIN;
@@ -75,9 +75,73 @@ inner join Sales on v_VIN = s_VIN;
 Select *
 FROM Vehicle
 where v_status = "FOR SALE"
-order by v_make, v_year asc;
+order by v_year asc, v_make;
 
+--Mechanic takes a car in for servicing from the dealership and doesn't need equipment or parts
+UPDATE Vehicle
+SET v_status = 'FOR REPAIR'
+WHERE v_VIN = 'JT3BU14R93J6NZLHE';
 
+INSERT INTO Service(sv_serviceType,sv_date,sv_VIN,sv_partKey,sv_equipmentKey,sv_cID,sv_mID,sv_partCost,sv_partQty,sv_totalCost)
+    VALUES ('Alignment','2022-01-29','JT3BU14R93J6NZLHE','','','','7','','','');
 
+UPDATE Vehicle
+SET v_status = 'FOR SALE'
+WHERE v_VIN = 'JT3BU14R93J6NZLHE';
 
+--Show salespersons' info of those who have at least have made 1 sale.
+SELECT sp_ID, sp_name, sp_position
+from Sales
+inner join Salesperson on s_spID = sp_ID
+group by sp_ID
+having count(sp_ID) > 0;
 
+--Show mechanics that have serviced at least one car
+SELECT m_ID, m_name, m_position
+from Service
+inner join Mechanic on sv_mID = m_ID
+group by m_ID
+having count(m_ID) > 0;
+
+--Show car sales before/within/after a certain time
+SELECT *
+from Sales
+where substr(s_date, 1, 10) > "2022-05-01";
+
+--Show car services before/within/after a certain time
+SELECT *
+from Service
+where substr(sv_date, 1, 10) > "2022-05-01";
+
+--Show serviced grouped by their service type
+SELECT *
+from Service
+group by sv_serviceType;
+
+--Show a saleperson who holds the position of "Supervisor" and has made more than 1 sale
+SELECT *
+from Sales
+inner join Salesperson on s_spID = sp_ID
+WHERE sp_position = 'Supervisor'
+group by sp_ID
+having count(sp_ID) > 0;
+
+--Show customers who have bought more than 0 cars from the database
+SELECT *
+from Sales
+inner join Customer on c_ID = s_cID
+group by c_ID
+having count(c_ID) > 0;
+
+--Check if a car has been serviced and has been sold once in the database
+SELECT *
+from Vehicle
+inner join Service on sv_VIN = v_VIN
+inner join Sales on v_VIN = s_VIN;
+
+--Show cars that require multiple services
+select *
+from Service
+inner join Vehicle on v_VIN = sv_VIN
+group by v_VIN, sv_serviceType
+having count(v_VIN) > 1;
