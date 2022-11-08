@@ -89,19 +89,19 @@ UPDATE Vehicle
 SET v_status = 'FOR SALE'
 WHERE v_VIN = 'JT3BU14R93J6NZLHE';
 
---Show salespersons' info of those who have at least have made 1 sale.
+--Show salespersons' info of those who have at least 1 sale.
 SELECT sp_ID, sp_name, sp_position
 from Sales
 inner join Salesperson on s_spID = sp_ID
 group by sp_ID
 having count(sp_ID) > 0;
 
---Show mechanics that have serviced at least one car
+--Show mechanics that have serviced one car
 SELECT m_ID, m_name, m_position
 from Service
 inner join Mechanic on sv_mID = m_ID
 group by m_ID
-having count(m_ID) > 0;
+having count(m_ID) = 1;
 
 --Show car sales before/within/after a certain time
 SELECT *
@@ -111,7 +111,7 @@ where substr(s_date, 1, 10) > "2022-05-01";
 --Show car services before/within/after a certain time
 SELECT *
 from Service
-where substr(sv_date, 1, 10) > "2022-05-01";
+where "2022-04-15" > substr(sv_date, 1, 10) > "2022-05-02";
 
 --Show serviced grouped by their service type
 SELECT *
@@ -139,7 +139,7 @@ from Vehicle
 inner join Service on sv_VIN = v_VIN
 inner join Sales on v_VIN = s_VIN;
 
---Show cars that require multiple services
+--Show cars that require multiple services and sort by car number and service type alphabetically
 select *
 from Service
 inner join Vehicle on v_VIN = sv_VIN
