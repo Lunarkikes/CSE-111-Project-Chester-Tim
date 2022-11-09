@@ -89,19 +89,19 @@ UPDATE Vehicle
 SET v_status = 'FOR SALE'
 WHERE v_VIN = 'JT3BU14R93J6NZLHE';
 
---Show salespersons' info of those who have at least 1 sale.
+--Show salespersons' info of those who have at least have made 1 sale.
 SELECT sp_ID, sp_name, sp_position
 from Sales
 inner join Salesperson on s_spID = sp_ID
 group by sp_ID
 having count(sp_ID) > 0;
 
---Show mechanics that have serviced one car
+--Show mechanics that have serviced at least one car
 SELECT m_ID, m_name, m_position
 from Service
 inner join Mechanic on sv_mID = m_ID
 group by m_ID
-having count(m_ID) = 1;
+having count(m_ID) > 0;
 
 --Show car sales before/within/after a certain time
 SELECT *
@@ -111,7 +111,7 @@ where substr(s_date, 1, 10) > "2022-05-01";
 --Show car services before/within/after a certain time
 SELECT *
 from Service
-where "2022-04-15" > substr(sv_date, 1, 10) > "2022-05-02";
+where substr(sv_date, 1, 10) > "2022-05-01";
 
 --Show serviced grouped by their service type
 SELECT *
@@ -139,9 +139,19 @@ from Vehicle
 inner join Service on sv_VIN = v_VIN
 inner join Sales on v_VIN = s_VIN;
 
---Show cars that require multiple services and sort by car number and service type alphabetically
+--Show cars that require multiple services
 select *
 from Service
 inner join Vehicle on v_VIN = sv_VIN
 group by v_VIN, sv_serviceType
 having count(v_VIN) > 1;
+
+--Select sales from vehicles that were sold for more than their MSRP and the saleperson is a supervisor
+SELECT *
+from Sales
+inner join Salesperson on s_spID = sp_ID
+inner join Vehicle on s_VIN = v_VIN
+where v_MSRP < s_totalCost and sp_ID in (SELECT sp_ID
+                                        from Sales
+                                        inner join Salesperson on s_spID = sp_ID
+                                        WHERE sp_position = 'Supervisor');
