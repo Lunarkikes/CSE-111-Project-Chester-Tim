@@ -1,0 +1,184 @@
+/* h1, h2, h3, p {
+    text-align: center;
+    justify-content: center;
+}
+
+h1, h2, h3 {
+    font-weight: bolder;
+} */
+
+
+
+table {
+    /* border: 2px outset black; */
+    border-radius: 20px;
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+
+}
+
+.carbox {
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+    height:100%;}
+
+th {
+    border-bottom: 2px inset black;
+    padding: 12px 15px 8px 15px; /* ^ > v < */
+}
+
+td ,tr {
+    border-bottom: 2px inset lightgray;
+    padding: 5px 10px 0px 10px;
+    justify-content: center;
+}
+
+.vColor {
+    padding: 10px 5px 10px 5px;
+    border: 1px ridge black;
+    border-radius: 4px;
+    background-image: linear-gradient( /* chrome */
+    hsla(0, 0%, 100%, 0.6), hsla(0, 0%, 100%, 0) 50%,
+    hsla(0, 0%, 0%, 0.3) 50%, hsla(0, 0%, 100%, 0.2));
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.float-container {
+    border: 3px solid #fff;
+    padding: 20px;
+
+}
+
+.salesbox, .repairbox {
+    float: left;
+    border: 1px solid black;
+    width: 49%;
+    margin-left: 9px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;}
+
+.headerbar {
+    border: 1px solid white;
+    
+}
+
+.headerbar-Links {
+    text-align: left;
+    border: 1px ridge black;
+    padding: 0px;
+    /* float: left; */
+}
+
+.headerbar-Title {
+    text-align: center;
+    font-weight: bolder;
+    border: 1px ridge black;
+    padding: 0px;
+
+}
+
+#car {
+    border: 2px black;
+}
+
+/* .bold {
+    font-weight: bolder;
+}
+
+html{
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding-top: 25px;
+    padding-left: 25px;
+    padding-right:  25px;
+    padding-bottom: 25px;
+}
+
+div{
+    padding-top: 10px;
+    padding-right: 30px;
+    padding-left: 30px;
+    padding-bottom: 15px;
+    text-align: center;
+}
+
+div.transbox{
+    background-color: rgba(157, 157, 157, 0.85);
+    padding-top: 10px;
+    padding-right: 30px;
+    padding-left: 30px;
+    padding-bottom: 15px;
+    border-style: solid;
+    border-radius: 30px;
+}
+
+div.outerbox{
+    background-color: rgba(0, 110, 178, 0.896);
+    padding-top: 5px;
+    padding-right: 40px;
+    padding-left: 40px;
+    padding-bottom: 30px;
+    display: inline-block;
+    border-style: solid;
+}
+
+div.innerbox{
+    background-color: darkgray;
+    text-align: center;
+    display: inline-block;
+    border-style: groove;
+    padding-top: 20px;
+    padding-right: 40px;
+    padding-left: 40px;
+    padding-bottom: 20px;
+}
+
+h1 {
+    font-size: 25px;
+    text-align: center;
+}
+
+
+
+th {
+    border: 1px solid black;
+    border-collapse: collapse;
+    background-color: lightgray;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-bottom: 10px;
+}
+
+td {
+    border: 1px solid black;
+    
+    border-collapse: collapse;
+    background-color: rgba(153, 216, 255, 0.896);
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-bottom: 10px;
+} */
+
+.hide {
+    color: transparent;
+    float:right;
+}
+
+.hide:hover {
+    font-size:small; 
+    color: blue;
+    float:right;
+  }
+
+.edit {
+    border:none;
+}

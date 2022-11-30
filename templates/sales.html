@@ -1,0 +1,44 @@
+<html>
+    <title>CSE111 Project</title>
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <div class = "transbox">
+    <head>
+        
+        <div class="headerbar">
+            <div class="headerbar-Links">
+                <p><a href={{ url_for('home') }}>Home</a> <a href={{ url_for('sales') }}>Sales</a> <a href={{ url_for('maint') }}>Maint</a></p>
+                <div class="headerbar-Title">
+                    <h1>CarFAQs</h1>
+                </div>
+            </div>
+        </div>
+
+    </head>
+    <body>
+        <div class="transbox">
+        <table>
+            <tr>
+                <th>Invoice No</th>
+                <th>Date</th>
+                <th>Vehicle</th>
+                <th>Salesperson<br>Customer</th>
+                <th>MSRP<br>Sale</th>
+                
+            </tr>
+            {% for eachSale in sales %}
+                <tr>
+                    <td>{{ eachSale.s_invoiceNo }}</td>
+                    <td>{{ eachSale.s_date }}</td>
+                    <td class="bold">{{ eachSale.v_year }} {{ eachSale.v_make }} {{ eachSale.v_model}}</td>
+                    <td>{{ eachSale.sp_name }}<br>{{ eachSale.c_name}}</td>
+                    <td>$ {{ eachSale.s_MSRP}}.00<br>$ {{ eachSale.s_totalCost}}</td>
+                    
+                </tr>
+                {% endfor %}
+        </table>
+        </div>
+    </body>
+    <link href = "{{ url_for('static', filename='css/login.css') }}" rel = " stylesheet">
+</html>

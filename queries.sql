@@ -30,21 +30,32 @@ SET v_status = 'FOR REPAIR'
 WHERE v_VIN = 'WBADM6343XHEL29DB';
 
 INSERT INTO Service(sv_serviceType,sv_date,sv_VIN,sv_partKey,sv_equipmentKey,sv_cID,sv_mID,sv_partCost,sv_partQty,sv_totalCost)
-    VALUES ('Tire Change','2022-07-13','JT3MU52N953RRH1PA','1','1','','13','50','1','70'),
-           ('Tire Change','2022-07-13','WBADM6343XHEL29DB','1','1','','15','50','1','70');
+    VALUES ('Oil Change','2022-07-13','JT3MU52N953RRH1PA','1','1','','13','50','1','70'),
+           ('Oil Change','2022-07-13','WBADM6343XHEL29DB','1','1','','15','50','1','70');
 
 
---Dealership sells car to a new customer
+--Dealership sells car to a new customer (total cost includes 8.25% tax and $2300 in fees)
 INSERT INTO Customer(c_name, c_phone) 
     VALUES ('Ron White', '4085551291');
 
 INSERT INTO Sales(s_date,s_VIN,s_spID,s_cID,s_MSRP,s_totalCost)
     VALUES ('2022-07-15','5FNYF18617RT8GPDT','6',(SELECT c_ID FROM Customer WHERE c_name = 'Ron White'),
-                                                 (SELECT v_MSRP FROM Vehicle WHERE v_VIN = '5FNYF18617RT8GPDT'),'28413.83');
+                                                 (SELECT v_MSRP FROM Vehicle WHERE v_VIN = '5FNYF18617RT8GPDT'),
+                                                 (SELECT v_MSRP FROM Vehicle WHERE v_VIN = '5FNYF18617RT8GPDT')+((SELECT v_MSRP FROM Vehicle WHERE v_VIN = '5FNYF18617RT8GPDT')*.0825)+2300);
 
 UPDATE Vehicle
 SET v_status = 'SOLD'
 WHERE v_VIN = '5FNYF18617RT8GPDT';
+
+--Dealership wants to know what car(s) have used the Tire Mount and Balance machine in July (run previous queries first)
+SELECT * 
+FROM Vehicle
+WHERE v_VIN IN (SELECT sv_VIN
+                FROM Service
+                WHERE sv_equipmentKey IN (SELECT e_equipmentKey
+                                            FROM Equipment
+                                            WHERE e_name = 'Tire Mount and Balance')
+                AND strftime('%m', sv_date) = '07');
 
 --Mechanic fills out repair work order
 UPDATE Vehicle
@@ -89,19 +100,19 @@ UPDATE Vehicle
 SET v_status = 'FOR SALE'
 WHERE v_VIN = 'JT3BU14R93J6NZLHE';
 
---Show salespersons' info of those who have at least have made 1 sale.
+--Show salespersons' info of those who have at least 1 sale.
 SELECT sp_ID, sp_name, sp_position
 from Sales
 inner join Salesperson on s_spID = sp_ID
 group by sp_ID
 having count(sp_ID) > 0;
 
---Show mechanics that have serviced at least one car
+--Show mechanics that have serviced one car
 SELECT m_ID, m_name, m_position
 from Service
 inner join Mechanic on sv_mID = m_ID
 group by m_ID
-having count(m_ID) > 0;
+having count(m_ID) = 1;
 
 --Show car sales before/within/after a certain time
 SELECT *
@@ -111,7 +122,7 @@ where substr(s_date, 1, 10) > "2022-05-01";
 --Show car services before/within/after a certain time
 SELECT *
 from Service
-where substr(sv_date, 1, 10) > "2022-05-01";
+where "2022-04-15" > substr(sv_date, 1, 10) > "2022-05-02";
 
 --Show serviced grouped by their service type
 SELECT *
@@ -139,7 +150,7 @@ from Vehicle
 inner join Service on sv_VIN = v_VIN
 inner join Sales on v_VIN = s_VIN;
 
---Show cars that require multiple services
+--Show cars that require multiple services and sort by car number and service type alphabetically
 select *
 from Service
 inner join Vehicle on v_VIN = sv_VIN

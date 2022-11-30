@@ -1,0 +1,38 @@
+<html>
+    <title>Lab 8</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <div class = "transbox">
+    <head>
+        <h1>CarFAQs</h1>
+    </head>
+
+    <body>
+        <div class = "outerbox">
+        <h1>Inventory</h1>
+        <div class = "innerbox">
+        <table>
+            <tr>
+                <th>Color</th>
+                <th>Year</th>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Trim Level</th>
+                <th>MSRP</th>
+                <th>VIN</th>
+            </tr>
+            {% for cars in allCars %}
+                <tr>
+                    <td><p class="vColor" style="background-color:{{ cars.v_color }}"></td>
+                    <td>{{ cars.v_year }}</td>
+                    <td>{{ cars.v_make }}</td>
+                    <td>{{ cars.v_model }}</td>
+                    <td>{{ cars.v_trim }}</td>
+                    <td>{{ cars.v_MSRP }}</td>
+                    <td><a href="cars/{{ cars.v_VIN }}">{{ cars.v_VIN }}</a></td>
+                </tr>
+                {% endfor %}
+        </table>
+    </div>
+    </div>
+    </body>
+</html>
