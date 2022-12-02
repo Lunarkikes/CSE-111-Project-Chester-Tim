@@ -8,7 +8,10 @@
         
         <div class="headerbar">
             <div class="headerbar-Links">
-                <p><a href={{ url_for('home') }}>Home</a> <a href={{ url_for('sales') }}>Sales</a> <a href={{ url_for('maint') }}>Maint</a></p>
+                <p><a href={{ url_for('home') }}>Home</a> 
+                    <a href={{ url_for('sales') }}>Sales</a> 
+                    <a href={{ url_for('maint') }}>Maint</a>
+                    <a href={{ url_for('admin') }}>Admin</a></p>
                 <div class="headerbar-Title">
                     <h1>CarFAQs</h1>
                 </div>
@@ -19,31 +22,157 @@
 
     <body>
         <div class="carbox">
-            <h2><i id='car' class='fas fa-car' style='border: 2px black;font-size:300px;color:{{thisCar.v_color}}'></i></h2>
-            <h1>{{thisCar.v_year}} {{thisCar.v_make}} {{thisCar.v_model}}</h1>
-            <p style="font-style:italic;font-size:small;">{{thisCar.v_VIN}}</p>
-            <p style="font-style:bold;font-size:xxlarge;">${{thisCar.v_MSRP}}</p>
+            <div class="carinfobox">
+                <h2><i id='car' class='fas fa-car' style='font-size:300px;
+                                                        background:radial-gradient(circle farthest-corner at 0px 40px,{{thisCar.v_color}} 70%, #0000001f, {{thisCar.v_color}});
+                                                        -webkit-background-clip: text;'></i></h2>
+                <h1>{{thisCar.v_year}} {{thisCar.v_make}} {{thisCar.v_model}}</h1>
+                <p style="font-style:italic;font-size:small;">{{thisCar.v_VIN}}</p>
+                {% if carForSale==True %}
+                <p style="font-style:bold;font-size:xxlarge;">${{thisCar.v_MSRP}}</p>
+                {% else %}
+                <p style="font-style:bold;font-size:xxlarge;">--</p>
+                {% endif %}
+            </div>
+
+            <div class="carrecordbox">
+                <table class="serviceTable">
+                    <tr>
+                        <th colspan="7"><h3>Previous Service Records:</h3></th>
+                    </tr>
+                    <tr>
+                        <th>Work Order No</th>
+                        <th>Date</th>
+                        <th>Services</th>
+                        <th>Part (Qty)</th>
+                        <th>Equipment</th>
+                        <th>Mechanic</th>
+                        <th>Completed</th>
+                    </tr>
+                    {% for serv in service %}
+                    <tr>
+                        <td>{{ serv.sv_workOrderNo }}</td>
+                        <td>{{ serv.sv_date }}</td>
+                        <td>{{ serv.sv_serviceType }}</td>
+                        <td>{{ serv.p_partName }} (x{{ serv.sv_partQty }})</td>
+                        <td>{{ serv.e_name }}</td>
+                        <td>{{ serv.m_name }}</td>
+                        <td>{{ serv.sv_totalCost }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
             <a href={{ url_for('cars') }}>Return to Vehicle List</a>
 
             
             
             <div class="float-container">
+               {% if carForSale==True %}
                 <div class="salesbox">
                     <h3>Create Invoice</h3>
-                    <form method="GET" action="/sale/{{thisCar.v_VIN}}">
+                    <form method="POST" action="/cars/{{thisCar.v_VIN}}">
+                        Salesperson: 
+                        <br>
                         <select name="sper"
                             {% for person in sper %}
-                            <option value="{{person.sp_name}}" SELECTED>{{person.sp_name}}</option>
+                            <option value="{{person.sp_ID}}">{{person.sp_name}}</option>
                             {% endfor %}
                         </select>
-                        <input type="text" name="custName" value="Customer Name">
-                        <input type="text" name="custNo" value="Customer Phone">
+                        <br>
+                        <label for="date">Date:</label>
+                        <input type="date" value="<?php echo $today; ?>" id="date" name="date">
+                        <br><br>
+                        Customer Info:
+                        <br>
+                        <input type="text" name="custName" onfocus="this.value=''" placeholder="Customer Name">
+                        <br>
+                        <input type="text" name="custNo" onfocus="this.value=''" placeholder="Customer Phone">
+                        <br><br>
+                        Total Sale Price:
+                        <br>
+                        <input type="text" name="totalPrice" onfocus="this.value=''" placeholder="Total" style="max-width:75px;">
+                        <br><br>
                         <input type="submit" value="Create Invoice">
                     </form>
                 </div>
-
+                {% else %}
+                <div class="salesbox">
+                    <h3>Owner Information</h3>
+                    <form method="GET" action="/cars/{{thisCar.v_VIN}}">
+                        Name: 
+                        <br>
+                        <h2>{{owner.c_name}}</h2>
+                        Phone:
+                        <br>
+                        <h2>{{owner.c_phone}}</h2>
+                    </form>
+                </div>
+                {% endif %}
+                
+                
+                
+                
+                
+                
+                
+                
                 <div class="repairbox">
-                    <h3>Create Service</h3>
+                    <h3>Create Service Record</h3>
+                    <form method="POST" action="/cars/{{thisCar.v_VIN}}">
+                        <div class="mechInfoBox">
+                            <h4>Mechanic:</h4>
+                            <select name="mech"
+                                {% for personm in mech %}
+                                <option value="{{personm.m_name}}" SELECTED>{{personm.m_name}}</option>
+                                {% endfor %}
+                            </select>
+                            <label for="date">Date:</label>
+                            <input type="date" value="<?php echo $today; ?>" id="date" name="date">
+                            <br><br>
+                        </div>
+                        <div class="serviceInfoBox">
+                            <h4>Service Info:</h4>
+                            <label for="services">Service Description:</label>
+                            <input type="text" name="services" onfocus="this.value=''" placeholder="e.g. Oil Change" style="max-width:300px;">
+                            <br>
+                            <label for="part">Part used:</label>
+                            <select name="part">
+                                <option value="" SELECTED>None</option>
+                                {% for part in part %}
+                                <option value="{{part.p_partKey}}">{{part.p_partName}}</option>
+                                {% endfor %}
+                            </select>
+                            <label for="quantity">Qty:</label>
+                            <input type="number" id="quantity" name="quantity" min="0" max="99" step="1" value="1" style="max-width:50px;">
+                            <br>
+                            <label for="equip">Equipment used:</label>
+                            <select name="equip">
+                                <option value="" SELECTED>None</option>
+                                {% for equip in equip %}
+                                <option value="{{equip.e_equipmentKey}}">{{equip.e_name}}</option>
+                                {% endfor %}
+                            </select>
+                            <br>
+                        </div>
+                        <br><br><br><br><br><br><br><br>
+                        <input type="submit" value="Create Service Record">
+                        
+                        
+
+                    </form>
+                    
+                    
                 </div>
             </div>
         </div>

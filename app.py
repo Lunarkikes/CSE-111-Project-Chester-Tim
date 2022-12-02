@@ -45,6 +45,11 @@ class Salesperson(db.Model):
     sp_name = db.Column(db.String, unique = False)
     sp_position = db.Column(db.String, unique = False)
     
+class Mechanic(db.Model):
+    m_ID = db.Column(db.Integer, primary_key = True)
+    m_name = db.Column(db.String, unique = False)
+    m_position = db.Column(db.String, unique = False)
+    
 class Sales(db.Model):
     s_invoiceNo = db.Column(db.Integer, primary_key = True)
     s_date = db.Column(db.String, unique = False)
@@ -59,10 +64,37 @@ class Customer(db.Model):
     c_name = db.Column(db.String, unique = False)
     c_phone = db.Column(db.String, unique = False)
     
+class Part(db.Model):
+    p_partKey = db.Column(db.Integer, primary_key = True)
+    p_partName = db.Column(db.String, unique = False)
+    p_isOEM = db.Column(db.Boolean, unique = False)
+    p_partCost = db.Column(db.Float, unique = False) 
+
+class Equipment(db.Model):
+    e_equipmentKey = db.Column(db.Integer, primary_key = True)
+    e_name = db.Column(db.String, unique = False)
+    e_comment = db.Column(db.String, unique = False)
+    
+class Service(db.Model):
+    sv_workOrderNo = db.Column(db.Integer, primary_key = True)
+    sv_serviceType = db.Column(db.String, unique = False)
+    sv_date = db.Column(db.String, unique = False)
+    sv_VIN = db.Column(db.String, unique = False)
+    sv_partKey = db.Column(db.Integer, unique = False)
+    sv_equipmentKey = db.Column(db.Integer, unique = False)
+    sv_cID = db.Column(db.Integer, unique = False)
+    sv_mID = db.Column(db.Integer, unique = False)
+    sv_partCost = db.Column(db.Integer, unique = False)
+    sv_partQty = db.Column(db.Integer, unique = False)
+    sv_totalCost = db.Column(db.Integer, unique = False)
+    
 
 admin.add_view(ModelView(Vehicle, db.session))
 admin.add_view(ModelView(Salesperson, db.session))
+admin.add_view(ModelView(Mechanic, db.session))
 admin.add_view(ModelView(Sales, db.session))
+admin.add_view(ModelView(Service, db.session))
+
 admin.add_view(ModelView(Customer, db.session))
 
 
@@ -95,25 +127,72 @@ def sales():
     
 @app.route('/maint', methods = ['GET'])
 def maint():
-    maint = (Sales.query.join(Salesperson, Salesperson.sp_ID==Sales.s_spID)
-                        .join(Customer, Customer.c_ID==Sales.s_cID)
-                        .join(Vehicle, Vehicle.v_VIN==Sales.s_VIN)
-                        .add_columns(Salesperson.sp_name, Customer.c_name,Sales.s_invoiceNo,Sales.s_date,
-                                     Sales.s_VIN,Sales.s_spID,Sales.s_cID,Sales.s_MSRP,Sales.s_totalCost,
-                                     Vehicle.v_year,Vehicle.v_make,Vehicle.v_model)
-                        .all())
+    maint = (Service.query.all()) ##JOIN NAMES
     return render_template('maint.html', maint=maint)
 
 @app.route('/cars', methods = ['GET'])  #SHOWS ALL CARS CURRENTLY FOR SALE
 def cars():
-    car = Vehicle.query.filter_by(v_status="FOR SALE").all()
+    # car = Vehicle.query.filter_by(v_status="FOR SALE").all()
+    car = Vehicle.query.all() #temp
+
     return render_template('viewcars.html', allCars=car)
 
-@app.route('/cars/<string:vin>', methods = ['GET'])  #Link to individually selected vehicle by VIN
+@app.route('/cars/<string:vin>', methods = ['GET', 'POST'])  #Link to individually selected vehicle by VIN
 def thisCar(vin):
+    
+    x=True
     car = Vehicle.query.filter_by(v_VIN=vin).first()
     salesperson = Salesperson.query.all()
-    return render_template('selectedcar.html', thisCar=car, sper=salesperson)
+    mechanic = Mechanic.query.all()
+    
+    part = Part.query.all()
+    equipment = Equipment.query.all()
+    
+    serviceRecords = (Service.query.filter_by(sv_VIN=vin)
+                                    .join(Mechanic, Mechanic.m_ID==Service.sv_mID)
+                                    .join(Part, Part.p_partKey==Service.sv_partKey)
+                                    .join(Equipment, Equipment.e_equipmentKey==Service.sv_equipmentKey)
+                                    .add_columns(Service.sv_workOrderNo,Service.sv_date,Service.sv_serviceType,Service.sv_partQty,Service.sv_totalCost,
+                                                 Mechanic.m_name, Part.p_partName, Equipment.e_name)
+                                    .all())
+    if (bool(Sales.query.filter_by(s_VIN=vin).first())):
+        print("Sales Record Exists")
+        sales = Sales.query.filter_by(s_VIN=vin).first()
+        x = False    
+        owner = Customer.query.filter_by(c_ID=sales.s_cID).first()
+    elif (bool(Service.query.filter_by(sv_VIN=vin).first())):
+        service = Service.query.filter_by(sv_VIN=vin).first()
+        print("\n\n\t\tsvCID",service.sv_cID)
+        print("Service Record Exists")
+        
+        x = False
+        owner = Customer.query.filter_by(c_ID=service.sv_cID).first()
+    
+    else:
+        owner = Customer.query.first()
+        
+    if(request.method == "POST"):
+        servicesPerf = request.form.get('services')
+        partNoUsedID = request.form.get('part')
+        partQty = request.form.get('quantity')
+        equipUsedID = request.form.get('equip')
+        selectedMechID = request.form.get('mech')
+        
+        date = request.form.get('date')
+        
+        custName = request.form.get('custName')
+        custPhone = request.form.get('custNo')
+        salesPersID = request.form.get('sper')
+        totalPrice = request.form.get('totalPrice')
+        print(custName,custPhone,salesPersID,totalPrice, date, type(date))
+        
+    return render_template('selectedcar.html', thisCar=car, sper=salesperson, mech=mechanic, 
+                                                carForSale=x, owner=owner, service=serviceRecords,
+                                                part=part, equip=equipment)
+
+@app.route("/admin")     #ADMIN PAGE
+def admin():
+    return redirect(url_for('admin.index'))
 
 @app.route("/")     #HOME PAGE
 def home():
