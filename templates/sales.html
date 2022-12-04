@@ -10,11 +10,20 @@
             <div class="headerbar-Links">
                 <p><a href={{ url_for('home') }}>Home</a> <a href={{ url_for('sales') }}>Sales</a> <a href={{ url_for('maint') }}>Maint</a></p>
                 <div class="headerbar-Title">
-                    <h1>CarFAQs</h1>
+                    <h1>CARFAQs</h1>
                 </div>
             </div>
         </div>
+    <form action="/sales" method="post">
+        <div id="usrnm" class="txtf">
+            <label class="label">VIN #</label>
+            <input id="username" type="text" name="vinS" placeholder="Find Car">
+        </div>
 
+        <div>
+            <input id="button" type="submit" value="SEARCH">
+        </div>
+    </form>
     </head>
     <body>
         <div class="transbox">
