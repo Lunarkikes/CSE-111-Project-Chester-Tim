@@ -76,7 +76,7 @@ CREATE TABLE Part (
 
 .mode "csv"
 .separator ","
-.cd /home/alvin/Desktop/CSE111/Project 
+.cd /home/alvin/Desktop/CSE111/CSE-111-Project-Chester-Tim
 --local path you may have to set this first (relative not working for some reason)
 
 .import data/Customer.csv Customer

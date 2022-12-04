@@ -8,24 +8,29 @@ from flask_cors import CORS
 # from wtforms.validators import InputRequired, Length, ValidationError
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
+from flask_admin.menu import MenuLink
+
+
 
 import os
+
+
+
 
 app = Flask(__name__)
 CORS(app)
 
 admin = Admin(app)
-
 courses = os.path.abspath(os.path.dirname(__file__)) 
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(courses, 'DealershipDB.sqlite')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'miata'
-app.config['SQLALCHEMY_ECHO'] = True #prints query to console for testing
-
-
+# app.config['SQLALCHEMY_ECHO'] = True #prints query to console for testing
 
 db = SQLAlchemy(app)
+
+   
 
 class Vehicle(db.Model):
     v_VIN = db.Column(db.String, primary_key = True)
@@ -88,15 +93,26 @@ class Service(db.Model):
     sv_partQty = db.Column(db.Integer, unique = False)
     sv_completed = db.Column(db.Boolean, unique = False)
     
+class AdminModelView(ModelView):
 
-admin.add_view(ModelView(Vehicle, db.session))
+    column_searchable_list = ['v_VIN','v_year','v_make','v_model','v_trim','v_color','v_MSRP','v_status']
+    
+    column_filters = ['v_VIN','v_year','v_make','v_model','v_trim','v_color','v_MSRP','v_status']
+    page_size = 50
+
+
+
+
+admin.add_view(AdminModelView(Vehicle, db.session))
+
+#admin.add_view(ModelView(Vehicle, db.session))
 admin.add_view(ModelView(Salesperson, db.session))
 admin.add_view(ModelView(Mechanic, db.session))
 admin.add_view(ModelView(Sales, db.session))
 admin.add_view(ModelView(Service, db.session))
 
 admin.add_view(ModelView(Customer, db.session))
-
+admin.add_link(MenuLink(name='Main Page', category='', url='/'))
 
 @app.route('/student', methods = ['GET'])
 def student():
@@ -111,16 +127,29 @@ def addSale(vin):
     print(type(vin), type(custName), type(custNo))
     return redirect(url_for('sales'))
 
-@app.route('/sales', methods = ['GET'])
+@app.route('/sales', methods = ['GET', 'POST'])
 def sales():
-    sales = (Sales.query.join(Salesperson, Salesperson.sp_ID==Sales.s_spID)
-                        .join(Customer, Customer.c_ID==Sales.s_cID)
-                        .join(Vehicle, Vehicle.v_VIN==Sales.s_VIN)
-                        .add_columns(Salesperson.sp_name, Customer.c_name,Sales.s_invoiceNo,Sales.s_date,
-                                     Sales.s_VIN,Sales.s_spID,Sales.s_cID,Sales.s_MSRP,Sales.s_totalCost,
-                                     Vehicle.v_year,Vehicle.v_make,Vehicle.v_model)
-                        .all())
-    return render_template('sales.html', sales=sales)
+    if request.method == 'GET':
+        sales = (Sales.query.join(Salesperson, Salesperson.sp_ID==Sales.s_spID)
+                            .join(Customer, Customer.c_ID==Sales.s_cID)
+                            .join(Vehicle, Vehicle.v_VIN==Sales.s_VIN)
+                            .add_columns(Salesperson.sp_name, Customer.c_name,Sales.s_invoiceNo,Sales.s_date,
+                                        Sales.s_VIN,Sales.s_spID,Sales.s_cID,Sales.s_MSRP,Sales.s_totalCost,
+                                        Vehicle.v_year,Vehicle.v_make,Vehicle.v_model)
+                            .all())
+        return render_template('sales.html', sales=sales)
+    if request.method == 'POST':
+        vin = request.form['vinS']
+        vin = vin.upper()
+        sale = Sales.query.filter(Sales.s_VIN.like("%"+vin+"%"))
+        counter = 0
+        for x in sale:
+            counter += 1
+        if counter != 0:
+            return render_template('sales.html', sales=sale)
+        else:
+            sales = Sales.query.all()
+            return render_template('sales.html', sales=sales)
 
     
 
@@ -138,6 +167,20 @@ def maint():
                             .all())
     return render_template('maint.html', maint=maint)
 
+@app.route('/maintS', methods = ['GET', 'POST'])
+def maintSearch():
+    Svin = request.form['Svin']
+    Svin = Svin.upper()
+    main = Service.query.filter(Service.sv_VIN.like("%"+Svin+"%")).all()
+    counter = 0
+    for x in main:
+        counter += 1
+    if counter != 0:
+        return render_template('maint.html', allCars=main)
+    else:
+        maint = (Service.query.all())
+        return render_template('maint.html', maint=maint)
+
 @app.route('/cars', methods = ['GET'])  #SHOWS ALL CARS CURRENTLY FOR SALE
 def cars():
     # car = Vehicle.query.filter_by(v_status="FOR SALE").all()
@@ -145,8 +188,22 @@ def cars():
 
     return render_template('viewcars.html', allCars=car)
 
-@app.route('/cars/<string:vin>', methods = ['GET', 'POST'])  #Link to individually selected vehicle by VIN
-def thisCar(vin):
+@app.route('/car', methods = ['GET', 'POST'])  #SEARCHES FOR CARS
+def searchCars():
+    vin = request.form['vin']
+    vin = vin.upper()
+    carsearch = Vehicle.query.filter(Vehicle.v_VIN.like("%"+vin+"%")).all() #temp
+    count = 0
+    for x in carsearch:
+        count += 1
+    if count != 0:
+        return render_template('viewcars.html', allCars=carsearch)
+    else:
+        car = Vehicle.query.all()  # temp
+        return render_template('viewcars.html', allCars=car)
+
+@app.route('/cars/<string:vin>/<int:button>', methods = ['GET', 'POST'])  #Link to individually selected vehicle by VIN
+def thisCar(vin,button):
     
     x=True
     car = Vehicle.query.filter_by(v_VIN=vin).first()
@@ -157,9 +214,9 @@ def thisCar(vin):
     equipment = Equipment.query.all()
     
     serviceRecords = (Service.query.filter_by(sv_VIN=vin)
-                                    .join(Mechanic, Mechanic.m_ID==Service.sv_mID)
-                                    .join(Part, Part.p_partKey==Service.sv_partKey)
-                                    .join(Equipment, Equipment.e_equipmentKey==Service.sv_equipmentKey)
+                                    .outerjoin(Mechanic, Mechanic.m_ID==Service.sv_mID)
+                                    .outerjoin(Part, Part.p_partKey==Service.sv_partKey)
+                                    .outerjoin(Equipment, Equipment.e_equipmentKey==Service.sv_equipmentKey)
                                     .add_columns(Service.sv_workOrderNo,Service.sv_date,Service.sv_serviceType,Service.sv_equipmentKey,
                                                  Service.sv_partQty,Service.sv_completed,Service.sv_partKey,
                                                  Mechanic.m_name, Part.p_partName, Equipment.e_name)
@@ -181,19 +238,42 @@ def thisCar(vin):
         owner = Customer.query.first()
         
     if(request.method == "POST"):
-        servicesPerf = request.form.get('services')
-        partNoUsedID = request.form.get('part')
-        partQty = request.form.get('quantity')
-        equipUsedID = request.form.get('equip')
-        selectedMechID = request.form.get('mech')
-        
         date = request.form.get('date')
+        if (button==1):
+            custName = request.form.get('custName')
+            custPhone = request.form.get('custNo')
+            salesPersID = request.form.get('sper')
+            totalPrice = request.form.get('totalPrice')
+            newCustomer = Customer(c_name=custName, c_phone=custPhone)
+            db.session.add(newCustomer)
+            db.session.commit()
+            newCustomerID = Customer.query.filter_by(c_name=custName).first()
+            newSale = Sales(s_date=date, s_VIN=vin, s_spID=salesPersID, s_cID=newCustomerID.c_ID, s_MSRP=car.v_MSRP, s_totalCost=totalPrice)
+            db.session.add(newSale)
+            # car.v_status = 'SOLD' 
+            db.session.commit()
+               
+        elif (button==2):
+            servicesPerf = request.form.get('services')
+            partNoUsedID = request.form.get('part')
+            partQty = request.form.get('quantity')
+            equipUsedID = request.form.get('equip')
+            selectedMechID = request.form.get('mech')
+            newService = Service(sv_serviceType=servicesPerf,sv_date=date,sv_VIN=vin,sv_partKey=partNoUsedID,
+                                 sv_equipmentKey=equipUsedID,sv_mID=selectedMechID,sv_partQty=partQty,sv_completed=False)
+            db.session.add(newService)
+            # car.v_status = 'FOR REPAIR'
+            db.session.commit()
+        return render_template('selectedcar.html', thisCar=car, sper=salesperson, mech=mechanic, 
+                                                carForSale=x, owner=owner, service=serviceRecords,
+                                                part=part, equip=equipment)
         
-        custName = request.form.get('custName')
-        custPhone = request.form.get('custNo')
-        salesPersID = request.form.get('sper')
-        totalPrice = request.form.get('totalPrice')
-        print(custName,custPhone,salesPersID,totalPrice, date, type(date))
+        
+        
+        
+        
+        
+        print(button)
         
     return render_template('selectedcar.html', thisCar=car, sper=salesperson, mech=mechanic, 
                                                 carForSale=x, owner=owner, service=serviceRecords,
@@ -217,3 +297,5 @@ if __name__ == '__main__':
 
 with app.app_context():
     db.create_all()
+    admin = create_admin(app=app)
+    configure_admin(app, admin)

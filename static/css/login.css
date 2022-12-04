@@ -11,6 +11,11 @@ h1 {
     text-align: center;
 }
 
+.usrnm {
+    text-align: center;
+    justify-content: center;
+}
+
 table {
     /* border: 2px outset black; */
     border-radius: 10px;
@@ -65,7 +70,7 @@ td{
     top: 750px;
 	left: 20;
     position: absolute;
-    min-height: 420px;
+    min-height: 430px;
 } 
 
 .repairbox { /*CREATE SERVICE RECORD*/
@@ -73,22 +78,29 @@ td{
     top: 750px;
 	right: 26;
     position: absolute;
-    min-height: 420px;
+    min-height: 430px;
 }
 
 .mechinfoBox {  /*MECHANIC FORM*/
     float: left;
     text-align: left;
-    padding-left: 50px;
-    position: absolute;
+    /* padding-left: 50px; */
+    position: relative;
+    left: 20%;
+    top: 50px;
+}
 
+input[type=submit].createServ {
+    position:relative;
+    top: 55px;
 }
 
 .serviceInfoBox {   /* SERVICE INFO FORM */
     float: right;
     text-align: left;
     width:49%;
-    /* position: absolute; */
+    position: relative;
+    top: 50px;
 
 }
 
@@ -118,7 +130,7 @@ h4 {
     /* position: absolute; */
     border-radius: 20px;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
-    height:100%;
+    min-height:1150px;
     margin-top: 35px;
 }
 

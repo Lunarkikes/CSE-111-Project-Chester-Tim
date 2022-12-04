@@ -83,7 +83,7 @@
                {% if carForSale==True %}
                 <div class="salesbox">
                     <h3>Create Invoice</h3>
-                    <form method="POST" action="/cars/{{thisCar.v_VIN}}">
+                    <form method="POST" action="/cars/{{thisCar.v_VIN}}/1">
                         Salesperson: 
                         <br>
                         <select name="sper"
@@ -111,7 +111,7 @@
                 {% else %}
                 <div class="salesbox">
                     <h3>Owner Information</h3>
-                    <form method="GET" action="/cars/{{thisCar.v_VIN}}">
+                    <form method="GET" action="/cars/{{thisCar.v_VIN}}/0">
                         Name: 
                         <br>
                         <h2>{{owner.c_name}}</h2>
@@ -131,14 +131,15 @@
                 
                 <div class="repairbox">
                     <h3>Create Service Record</h3>
-                    <form method="POST" action="/cars/{{thisCar.v_VIN}}">
+                    <form method="POST" action="/cars/{{thisCar.v_VIN}}/2">
                         <div class="mechInfoBox">
                             <h4>Mechanic:</h4>
                             <select name="mech"
                                 {% for personm in mech %}
-                                <option value="{{personm.m_name}}" SELECTED>{{personm.m_name}}</option>
+                                <option value="{{personm.m_ID}}" SELECTED>{{personm.m_name}}</option>
                                 {% endfor %}
                             </select>
+                            <br>
                             <label for="date">Date:</label>
                             <input type="date" value="<?php echo $today; ?>" id="date" name="date">
                             <br><br>
@@ -168,7 +169,7 @@
                             <br>
                         </div>
                         <br><br><br><br><br><br><br><br>
-                        <input type="submit" value="Create Service Record">
+                        <input class="createServ" type="submit" value="Create Service Record">
                         
                         
 
