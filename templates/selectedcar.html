@@ -5,26 +5,28 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
     <div class = "transbox">
     <head>
-        
         <div class="headerbar">
             <div class="headerbar-Links">
-                <p><a href={{ url_for('home') }}>Home</a> 
-                    <a href={{ url_for('sales') }}>Sales</a> 
-                    <a href={{ url_for('maint') }}>Maint</a>
-                    <a href={{ url_for('admin') }}>Admin</a></p>
+                <p><a href={{ url_for('home') }}>Home</a> | 
+                    <a href={{ url_for('cars') }}>Vehicles</a> | 
+                    <a href={{ url_for('sales') }}>Sales Records</a> | 
+                    <a href={{ url_for('maint') }}>Maintenance Records</a> | 
+                    <a href={{ url_for('admin') }}>Admin</a>
+                    </p>
                 <div class="headerbar-Title">
-                    <h1>CarFAQs</h1>
+                    <h1 class="title">CarFAQs</h1>
                 </div>
             </div>
         </div>
-
     </head>
 
     <body>
+        
         <div class="carbox">
-            <div class="carinfobox">
+            <h1 class="pagetitle">Vehicle Information</h1>    
+        <div class="carinfobox">
                 <h2><i id='car' class='fas fa-car' style='font-size:300px;
-                                                        background:radial-gradient(circle farthest-corner at 0px 40px,{{thisCar.v_color}} 70%, #0000001f, {{thisCar.v_color}});
+                    background:radial-gradient(circle farthest-corner at 0px 40px,{{thisCar.v_color}} 70%, #0000001f, {{thisCar.v_color}});
                                                         -webkit-background-clip: text;'></i></h2>
                 <h1>{{thisCar.v_year}} {{thisCar.v_make}} {{thisCar.v_model}}</h1>
                 <p style="font-style:italic;font-size:small;">{{thisCar.v_VIN}}</p>
@@ -57,7 +59,7 @@
                         <td>{{ serv.p_partName }} (x{{ serv.sv_partQty }})</td>
                         <td>{{ serv.e_name }}</td>
                         <td>{{ serv.m_name }}</td>
-                        <td>{{ serv.sv_totalCost }}</td>
+                        <td>{{ serv.sv_completed }}</td>
                     </tr>
                     {% endfor %}
                 </table>
@@ -73,7 +75,7 @@
 
 
 
-            <a href={{ url_for('cars') }}>Return to Vehicle List</a>
+
 
             
             

@@ -1,25 +1,38 @@
 <html>
-    <title>Lab 8</title>
+    <title>CSE111 Project</title>
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
-    <script type="text/javascript" src="static/js/learn.js"></script>
     <div class = "transbox">
     <head>
-        <h1>CarFAQs</h1>
+        <div class="headerbar">
+            <div class="headerbar-Links">
+                <p><a href={{ url_for('home') }}>Home</a> | 
+                    <a href={{ url_for('cars') }}>Vehicles</a> | 
+                    <a href={{ url_for('sales') }}>Sales Records</a> | 
+                    <a href={{ url_for('maint') }}>Maintenance Records</a> | 
+                    <a href={{ url_for('admin') }}>Admin</a>
+                    </p>
+                <div class="headerbar-Title">
+                    <h1 class="title">CarFAQs</h1>
+                </div>
+            </div>
+        </div>
     </head>
 
-    <form action="/car" method="post">
-        <div id="usrnm" class="txtf">
-            <label class="label">VIN #</label>
-            <input id="username" type="text" name="vin" placeholder="Find Car">
-        </div>
-
-        <div>
-            <input id="button" type="submit" value="SEARCH">
-        </div>
-    </form>
     <body>
-        <div class = "outerbox" >
-        <h1>Inventory</h1>
+        <div class = "outerbox">
+        <h1 class="pagetitle">Inventory</h1>
+        <form action="/car" method="post">
+            <div id="usrnm" class="txtf">
+                <label class="label">VIN #</label>
+                <input id="username" type="text" name="vin" placeholder="Find Car">
+            </div>
+    
+            <div>
+                <input id="button" type="submit" value="SEARCH">
+            </div>
+        </form>
         <div class = "innerbox">
         <table class="allCarTable">
             <tr>

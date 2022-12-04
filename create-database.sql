@@ -58,7 +58,7 @@ CREATE TABLE Service (
     sv_mID DECIMAL(3,0) NOT NULL,
     sv_partCost DECIMAL(5,2), 
     sv_partQty DECIMAL(3,0),                 --ADDED
-    sv_totalCost DECIMAL(6,2) NOT NULL
+    sv_completed BOOL NOT NULL
 );
 
 CREATE TABLE Equipment (

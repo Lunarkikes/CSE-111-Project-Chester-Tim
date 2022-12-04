@@ -7,7 +7,9 @@ h1, h2, h3 {
     font-weight: bolder;
 } */
 
-
+h1 {
+    text-align: center;
+}
 
 table {
     /* border: 2px outset black; */
@@ -116,7 +118,9 @@ h4 {
     /* position: absolute; */
     border-radius: 20px;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
-    height:100%;}
+    height:100%;
+    margin-top: 35px;
+}
 
 .vColor {
     padding: 10px 5px 10px 5px;
@@ -133,27 +137,48 @@ h4 {
 
 
 .headerbar {
-    border: 1px solid white;
-    
+    background-color: white;
+    position: relative;
+    margin: -18px -8px 0px -8px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
 }
 
 .headerbar-Links {
     text-align: left;
-    border: 1px ridge black;
-    padding: 0px;
+    /* border: 1px ridge black; */
+    padding: 2px 0px 0px 20px;
     /* float: left; */
 }
 
-.headerbar-Title {
+/* .headerbar-Title {
     text-align: center;
-    font-weight: bolder;
+    background-color: red;
     border: 1px ridge #303030;
-    padding: 0px;
+    padding: 0px 500px 0px 500px;
+    
+} */
 
+h1.title {
+    font-weight:900;
+    position:absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -15px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 0px 20px; 
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+h1.pagetitle {
+    padding-top: 10px;
 }
 
 #car {
-    
+    padding: 0px 50px;
+    border-radius: 10px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     
     -webkit-text-fill-color: transparent;
     /* border: 2px black; */

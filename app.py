@@ -21,7 +21,7 @@ courses = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(courses, 'DealershipDB.sqlite')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'miata'
-# app.config['SQLALCHEMY_ECHO'] = True #prints query to console for testing
+app.config['SQLALCHEMY_ECHO'] = True #prints query to console for testing
 
 
 
@@ -86,7 +86,7 @@ class Service(db.Model):
     sv_mID = db.Column(db.Integer, unique = False)
     sv_partCost = db.Column(db.Integer, unique = False)
     sv_partQty = db.Column(db.Integer, unique = False)
-    sv_totalCost = db.Column(db.Integer, unique = False)
+    sv_completed = db.Column(db.Boolean, unique = False)
     
 
 admin.add_view(ModelView(Vehicle, db.session))
@@ -111,52 +111,32 @@ def addSale(vin):
     print(type(vin), type(custName), type(custNo))
     return redirect(url_for('sales'))
 
-@app.route('/sales', methods = ['GET', 'POST'])
+@app.route('/sales', methods = ['GET'])
 def sales():
-    if request.method == 'GET':
-        sales = (Sales.query.join(Salesperson, Salesperson.sp_ID==Sales.s_spID)
-                            .join(Customer, Customer.c_ID==Sales.s_cID)
-                            .join(Vehicle, Vehicle.v_VIN==Sales.s_VIN)
-                            .add_columns(Salesperson.sp_name, Customer.c_name,Sales.s_invoiceNo,Sales.s_date,
-                                         Sales.s_VIN,Sales.s_spID,Sales.s_cID,Sales.s_MSRP,Sales.s_totalCost,
-                                         Vehicle.v_year,Vehicle.v_make,Vehicle.v_model)
-                            .all())
-        return render_template('sales.html', sales=sales)
-    if request.method == 'POST':
-        vin = request.form['vinS']
-        vin = vin.upper()
-        sale = Sales.query.filter(Sales.s_VIN.like("%"+vin+"%"))
-        counter = 0
-        for x in sale:
-            counter += 1
-        if counter != 0:
-            return render_template('sales.html', sales=sale)
-        else:
-            sales = Sales.query.all()
-            return render_template('sales.html', sales=sales)
-
+    sales = (Sales.query.join(Salesperson, Salesperson.sp_ID==Sales.s_spID)
+                        .join(Customer, Customer.c_ID==Sales.s_cID)
+                        .join(Vehicle, Vehicle.v_VIN==Sales.s_VIN)
+                        .add_columns(Salesperson.sp_name, Customer.c_name,Sales.s_invoiceNo,Sales.s_date,
+                                     Sales.s_VIN,Sales.s_spID,Sales.s_cID,Sales.s_MSRP,Sales.s_totalCost,
+                                     Vehicle.v_year,Vehicle.v_make,Vehicle.v_model)
+                        .all())
+    return render_template('sales.html', sales=sales)
 
     
 
     
 @app.route('/maint', methods = ['GET'])
 def maint():
-    maint = (Service.query.all()) ##JOIN NAMES
+    maint = (Service.query.outerjoin(Mechanic, Mechanic.m_ID==Service.sv_mID)
+                            .outerjoin(Customer, Customer.c_ID==Service.sv_cID)
+                            .outerjoin(Vehicle, Vehicle.v_VIN==Service.sv_VIN)
+                            .outerjoin(Part, Part.p_partKey==Service.sv_partKey)
+                            .outerjoin(Equipment, Equipment.e_equipmentKey==Service.sv_equipmentKey)
+                            .add_columns(Service.sv_workOrderNo,Service.sv_date,Service.sv_serviceType,Service.sv_partQty,Service.sv_completed,
+                                         Vehicle.v_VIN,Vehicle.v_year,Vehicle.v_make,Vehicle.v_model,
+                                         Mechanic.m_name, Part.p_partName, Equipment.e_name,Customer.c_name)
+                            .all())
     return render_template('maint.html', maint=maint)
-
-@app.route('/maintS', methods = ['GET', 'POST'])
-def maintSearch():
-    Svin = request.form['Svin']
-    Svin = Svin.upper()
-    main = Service.query.filter(Service.sv_VIN.like("%"+Svin+"%")).all()
-    counter = 0
-    for x in main:
-        counter += 1
-    if counter != 0:
-        return render_template('maint.html', allCars=main)
-    else:
-        maint = (Service.query.all())
-        return render_template('maint.html', maint=maint)
 
 @app.route('/cars', methods = ['GET'])  #SHOWS ALL CARS CURRENTLY FOR SALE
 def cars():
@@ -164,20 +144,6 @@ def cars():
     car = Vehicle.query.all() #temp
 
     return render_template('viewcars.html', allCars=car)
-
-@app.route('/car', methods = ['GET', 'POST'])  #SEARCHES FOR CARS
-def searchCars():
-    vin = request.form['vin']
-    vin = vin.upper()
-    carsearch = Vehicle.query.filter(Vehicle.v_VIN.like("%"+vin+"%")).all() #temp
-    count = 0
-    for x in carsearch:
-        count += 1
-    if count != 0:
-        return render_template('viewcars.html', allCars=carsearch)
-    else:
-        car = Vehicle.query.all()  # temp
-        return render_template('viewcars.html', allCars=car)
 
 @app.route('/cars/<string:vin>', methods = ['GET', 'POST'])  #Link to individually selected vehicle by VIN
 def thisCar(vin):
@@ -194,7 +160,8 @@ def thisCar(vin):
                                     .join(Mechanic, Mechanic.m_ID==Service.sv_mID)
                                     .join(Part, Part.p_partKey==Service.sv_partKey)
                                     .join(Equipment, Equipment.e_equipmentKey==Service.sv_equipmentKey)
-                                    .add_columns(Service.sv_workOrderNo,Service.sv_date,Service.sv_serviceType,Service.sv_partQty,Service.sv_totalCost,
+                                    .add_columns(Service.sv_workOrderNo,Service.sv_date,Service.sv_serviceType,Service.sv_equipmentKey,
+                                                 Service.sv_partQty,Service.sv_completed,Service.sv_partKey,
                                                  Mechanic.m_name, Part.p_partName, Equipment.e_name)
                                     .all())
     if (bool(Sales.query.filter_by(s_VIN=vin).first())):
