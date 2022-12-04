@@ -137,6 +137,20 @@ def cars():
 
     return render_template('viewcars.html', allCars=car)
 
+@app.route('/car', methods = ['GET', 'POST'])  #SEARCHES FOR CARS
+def searchCars():
+    vin = request.form['vin']
+    vin = vin.upper()
+    carsearch = Vehicle.query.filter(Vehicle.v_VIN.like("%"+vin+"%")).all() #temp
+    count = 0
+    for x in carsearch:
+        count += 1
+    if count != 0:
+        return render_template('viewcars.html', allCars=carsearch)
+    else:
+        car = Vehicle.query.all()  # temp
+        return render_template('viewcars.html', allCars=car)
+
 @app.route('/cars/<string:vin>', methods = ['GET', 'POST'])  #Link to individually selected vehicle by VIN
 def thisCar(vin):
     
