@@ -1,13 +1,24 @@
 <html>
     <title>Lab 8</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <script type="text/javascript" src="static/js/learn.js"></script>
     <div class = "transbox">
     <head>
         <h1>CarFAQs</h1>
     </head>
 
+    <form action="/car" method="post">
+        <div id="usrnm" class="txtf">
+            <label class="label">VIN #</label>
+            <input id="username" type="text" name="vin" placeholder="Find Car">
+        </div>
+
+        <div>
+            <input id="button" type="submit" value="SEARCH">
+        </div>
+    </form>
     <body>
-        <div class = "outerbox">
+        <div class = "outerbox" >
         <h1>Inventory</h1>
         <div class = "innerbox">
         <table class="allCarTable">
