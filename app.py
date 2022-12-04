@@ -130,6 +130,19 @@ def maint():
     maint = (Service.query.all()) ##JOIN NAMES
     return render_template('maint.html', maint=maint)
 
+@app.route('/maintS', methods = ['GET', 'POST'])
+def maintSearch():
+    Svin = request.form['Svin']
+    main = Service.query.filter(Service.sv_VIN.like("%"+Svin+"%")).all()
+    counter = 0
+    for x in main:
+        counter += 1
+    if counter != 0:
+        return render_template('maint.html', allCars=main)
+    else:
+        maint = (Service.query.all())
+        return render_template('maint.html', maint=maint)
+
 @app.route('/cars', methods = ['GET'])  #SHOWS ALL CARS CURRENTLY FOR SALE
 def cars():
     # car = Vehicle.query.filter_by(v_status="FOR SALE").all()
