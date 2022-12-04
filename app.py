@@ -111,16 +111,30 @@ def addSale(vin):
     print(type(vin), type(custName), type(custNo))
     return redirect(url_for('sales'))
 
-@app.route('/sales', methods = ['GET'])
+@app.route('/sales', methods = ['GET', 'POST'])
 def sales():
-    sales = (Sales.query.join(Salesperson, Salesperson.sp_ID==Sales.s_spID)
-                        .join(Customer, Customer.c_ID==Sales.s_cID)
-                        .join(Vehicle, Vehicle.v_VIN==Sales.s_VIN)
-                        .add_columns(Salesperson.sp_name, Customer.c_name,Sales.s_invoiceNo,Sales.s_date,
-                                     Sales.s_VIN,Sales.s_spID,Sales.s_cID,Sales.s_MSRP,Sales.s_totalCost,
-                                     Vehicle.v_year,Vehicle.v_make,Vehicle.v_model)
-                        .all())
-    return render_template('sales.html', sales=sales)
+    if request.method == 'GET':
+        sales = (Sales.query.join(Salesperson, Salesperson.sp_ID==Sales.s_spID)
+                            .join(Customer, Customer.c_ID==Sales.s_cID)
+                            .join(Vehicle, Vehicle.v_VIN==Sales.s_VIN)
+                            .add_columns(Salesperson.sp_name, Customer.c_name,Sales.s_invoiceNo,Sales.s_date,
+                                         Sales.s_VIN,Sales.s_spID,Sales.s_cID,Sales.s_MSRP,Sales.s_totalCost,
+                                         Vehicle.v_year,Vehicle.v_make,Vehicle.v_model)
+                            .all())
+        return render_template('sales.html', sales=sales)
+    if request.method == 'POST':
+        vin = request.form['vinS']
+        vin = vin.upper()
+        sale = Sales.query.filter(Sales.s_VIN.like("%"+vin+"%"))
+        counter = 0
+        for x in sale:
+            counter += 1
+        if counter != 0:
+            return render_template('sales.html', sales=sale)
+        else:
+            sales = Sales.query.all()
+            return render_template('sales.html', sales=sales)
+
 
     
 
@@ -133,6 +147,7 @@ def maint():
 @app.route('/maintS', methods = ['GET', 'POST'])
 def maintSearch():
     Svin = request.form['Svin']
+    Svin = Svin.upper()
     main = Service.query.filter(Service.sv_VIN.like("%"+Svin+"%")).all()
     counter = 0
     for x in main:
