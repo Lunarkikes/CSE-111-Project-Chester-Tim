@@ -1,0 +1,87 @@
+<html>
+    <title>CSE111 Project</title>
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <div class = "transbox">
+    <head>
+        <div class="headerbar">
+            <div class="headerbar-Links">
+                <p><a href={{ url_for('home') }}>Home</a> | 
+                    <a href={{ url_for('cars') }}>Vehicles</a> | 
+                    <a href={{ url_for('sales') }}>Sales Records</a> | 
+                    <a href={{ url_for('maint') }}>Maintenance Records</a> | 
+                    <a href={{ url_for('admin') }}>Admin</a>
+                    </p>
+                <div class="headerbar-Title">
+                    <h1 class="title">CarFAQs</h1>
+                </div>
+            </div>
+        </div>
+    </head>
+    <body>
+        <div class = "outerbox">
+        <h1 class="pagetitle">Inventory</h1>
+        <div class = "innerbox">
+            <div class = "filters">
+                <form method="POST" action="/cars">
+                    <input type="submit" value="All Vehicles" name="action1"/>
+                    <input type="submit" value="Cars For Sale" name="action2"/>
+                    <input type="submit" value="Cars In Repair" name="action3"/>
+                    <input type="submit" value="Cars Sold" name="action4"/>
+                </form>
+            </div>
+        <table class="allCarTable">
+            <tr>
+                <th><form action="/car1" method="post">
+                    <label class="label">Color</label><br>
+                    <input id="username" type="text" name="c1" placeholder="Search Color">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th><form action="/car2" method="post">
+                    <label class="label">Year</label><br>
+                    <input id="username" type="text" name="c2" placeholder="Search Year">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th><form action="/car3" method="post">
+                    <label class="label">Make</label><br>
+                    <input id="username" type="text" name="c3" placeholder="Search Make">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th><form action="/car4" method="post">
+                    <label class="label">Model</label><br>
+                    <input id="username" type="text" name="c4" placeholder="Search Model">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th><form action="/car5" method="post">
+                    <label class="label">Trim Level</label><br>
+                    <input id="username" type="text" name="c5" placeholder="Search Trim Level">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th><form action="/car6" method="post">
+                    <label class="label">MSRP</label><br>
+                    <input id="username" type="text" name="c6" placeholder="Search MSRP">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th><form action="/car" method="post">
+                    <label class="label">VIN</label><br>
+                    <input id="username" type="text" name="vin" placeholder="Search VIN">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+            </tr>
+            {% for cars in allCars %}
+                <tr>
+                    <td><p class="vColor" style="background-color:{{ cars.v_color }}"></td>
+                    <td>{{ cars.v_year }}</td>
+                    <td>{{ cars.v_make }}</td>
+                    <td>{{ cars.v_model }}</td>
+                    <td>{{ cars.v_trim }}</td>
+                    <td>{{ cars.v_MSRP }}</td>
+                    <td><a href="cars/{{ cars.v_VIN }}/0">{{ cars.v_VIN }}</a></td>
+                </tr>
+                {% endfor %}
+        </table>
+    </div>
+    </div>
+    </body>
+</html>

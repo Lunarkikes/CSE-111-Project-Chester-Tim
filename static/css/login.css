@@ -1,0 +1,379 @@
+/* h1, h2, h3, p {
+    text-align: center;
+    justify-content: center;
+}
+
+h1, h2, h3 {
+    font-weight: bolder;
+} */
+
+h1 {
+    text-align: center;
+}
+
+
+
+table {
+    /* border: 2px outset black; */
+    border-radius: 10px;
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+}
+
+table.allCarTable {
+    /* border: 2px outset black; */
+    border-radius: 10px;
+}
+
+th {
+    border-bottom: 2px inset black;
+    padding: 12px 15px 8px 15px; /* ^ > v < */
+}
+
+td ,tr {
+    padding: 5px 10px 0px 10px;
+    justify-content: center;
+    text-align: center;
+}
+
+td{
+    border-top: 2px inset lightgray;
+
+}
+
+.float-container {
+    border: 3px solid #fff;
+    padding: 20px;
+
+}
+
+.salesbox, .repairbox {
+    float: left;
+    border: 1px solid black;
+    margin-left: 9px;
+    border-radius: 10px;
+    box-shadow: rgba(61, 61, 61, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    justify-content: center;
+    text-align: center;
+    padding-bottom: 20px;
+    
+
+}
+
+.salesbox{  /*CREATE INVOICE*/
+    width: 25%;
+    top: 750px;
+	left: 20;
+    position: absolute;
+    min-height: 430px;
+} 
+
+.repairbox { /*CREATE SERVICE RECORD*/
+    width: 70%;
+    top: 750px;
+	right: 26;
+    position: absolute;
+    min-height: 430px;
+}
+
+.mechinfoBox {  /*MECHANIC FORM*/
+    float: left;
+    text-align: left;
+    /* padding-left: 50px; */
+    position: relative;
+    left: 20%;
+    top: 50px;
+}
+
+input[type=submit].createServ {
+    position:relative;
+    top: 55px;
+}
+
+.serviceInfoBox {   /* SERVICE INFO FORM */
+    float: right;
+    text-align: left;
+    width:49%;
+    position: relative;
+    top: 50px;
+
+}
+
+.carinfobox{    /*CAR PICTURE*/
+    float: left;
+    width: 30%;
+    text-align: center;
+    position: absolute;
+    top: 200px;;
+    left:125;
+
+}
+
+.carrecordbox{ /*PREVIOUS SERVICE RECORDS*/
+    float: right;
+    width: 69%;
+    position: absolute;
+	top: 200px;
+	right: 0%;
+}
+
+h4 {
+    text-align: center;
+}
+
+.carbox {
+    /* position: absolute; */
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+    min-height:1150px;
+    margin-top: 35px;
+}
+
+.vColor {
+    text-align: right;
+    justify-content: right;
+    padding: 12px;
+    /* width: 15px; */
+    border: 1px ridge black;
+    border-radius: 4px;
+    background-image: linear-gradient( /* chrome */
+    hsla(0, 0%, 100%, 0.6), hsla(0, 0%, 100%, 0) 50%,
+    hsla(0, 0%, 0%, 0.3) 50%, hsla(0, 0%, 100%, 0.2));
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.newCustBox {
+    display: none;
+    /* border: 2px black;*/
+    border-radius: 5px;
+    background-color: white; 
+    float:right;
+    position:absolute;
+    right: 20px;
+    top: 50px;
+    padding: 5px;
+    box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+}
+
+input[type=text] {
+    margin-bottom:2px;
+}
+
+.filters {
+    text-align: center;
+}
+
+form.complete {
+    position:relative;
+    top: 5px;
+    /* padding: 0px;
+    display: inline-block;
+    width:2px;
+    height: 10%; */
+    float:right;
+
+}
+
+.hideButton {
+    text-align:right;
+    position: relative;
+    right: 15px;
+    top:5px;
+}
+
+.cboxCustInfo,.cboxCarInfo{
+    float:left;
+    padding: 3px;
+}
+
+.newSubmit {
+    position:relative;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 12px;
+}
+
+h4.newCustTitle {
+    padding: 0px;
+    margin: 0px;
+    font-weight: 900;
+}
+
+.headerbar {
+    background-color: white;
+    position: relative;
+    margin: -18px -8px 0px -8px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+}
+
+.headerbar-Links {
+    text-align: left;
+    /* border: 1px ridge black; */
+    padding: 2px 0px 0px 20px;
+    /* float: left; */
+}
+
+/* .headerbar-Title {
+    text-align: center;
+    background-color: red;
+    border: 1px ridge #303030;
+    padding: 0px 500px 0px 500px;
+    
+} */
+
+h1.title {
+    font-weight:900;
+    position:absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -15px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 0px 20px; 
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+h1.pagetitle {
+    padding-top: 10px;
+}
+
+#car {
+    padding: 0px 50px;
+    border-radius: 10px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    
+    -webkit-text-fill-color: transparent;
+    /* border: 2px black; */
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: black;
+    /* -webkit-background-clip: text; */
+    /* -webkit-text-fill-color: rgba(255, 255, 255, 0); */
+    
+    animation: animate 5s infinite;
+
+}
+
+.bold {
+    font-weight:900;
+}
+
+#usrnm {
+    text-align: center;
+    justify-content: center;
+}
+#username {
+    width: 100px;
+}
+#username2 {
+    width: 200px;
+}
+#button{
+    margin-left:-4px;
+}
+#button2 {
+    text-align: center;
+}
+
+label.label, #username,#button {
+    position:relative;
+    top: 20px;
+}
+/*
+html{
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding-top: 25px;
+    padding-left: 25px;
+    padding-right:  25px;
+    padding-bottom: 25px;
+}
+
+div{
+    padding-top: 10px;
+    padding-right: 30px;
+    padding-left: 30px;
+    padding-bottom: 15px;
+    text-align: center;
+}
+
+div.transbox{
+    background-color: rgba(157, 157, 157, 0.85);
+    padding-top: 10px;
+    padding-right: 30px;
+    padding-left: 30px;
+    padding-bottom: 15px;
+    border-style: solid;
+    border-radius: 30px;
+}
+
+div.outerbox{
+    background-color: rgba(0, 110, 178, 0.896);
+    padding-top: 5px;
+    padding-right: 40px;
+    padding-left: 40px;
+    padding-bottom: 30px;
+    display: inline-block;
+    border-style: solid;
+}
+
+div.innerbox{
+    background-color: darkgray;
+    text-align: center;
+    display: inline-block;
+    border-style: groove;
+    padding-top: 20px;
+    padding-right: 40px;
+    padding-left: 40px;
+    padding-bottom: 20px;
+}
+
+h1 {
+    font-size: 25px;
+    text-align: center;
+}
+
+
+
+th {
+    border: 1px solid black;
+    border-collapse: collapse;
+    background-color: lightgray;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-bottom: 10px;
+}
+
+td {
+    border: 1px solid black;
+    
+    border-collapse: collapse;
+    background-color: rgba(153, 216, 255, 0.896);
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-bottom: 10px;
+} */
+
+.hide {
+    color: transparent;
+    float:right;
+}
+
+.hide:hover {
+    font-size:small; 
+    color: blue;
+    float:right;
+  }
+
+.edit {
+    border:none;
+}

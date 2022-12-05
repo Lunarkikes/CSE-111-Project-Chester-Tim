@@ -1,0 +1,29 @@
+<html>
+    <title>CSE111 Final Project</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <div class = "transbox">
+    <head>
+        <h1>CSE111 Final Project</h1>
+    </head>
+
+<body>
+    <header>
+        <h1>CarFAQs</h1>
+        <h5>by Chester Merino and Tim Chan</h5>
+    </header>
+
+
+    <a method="GET" href={{ url_for('cars') }}>Cars for sale</a>
+    <a method="GET" href={{ url_for('sales') }}>Sales Records</a>
+    <a method="GET" href={{ url_for('maint') }}>Maintenance Records</a>
+    <div class="slidecontainer">
+        <input type="range" min="1" max="100" value="50" class="slider" id="myRange"/>
+    </div>
+
+
+</body>
+</div>
+
+<script src="script.js"></script>
+
+</html>
