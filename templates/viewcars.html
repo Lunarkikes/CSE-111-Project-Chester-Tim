@@ -19,74 +19,55 @@
             </div>
         </div>
     </head>
-
-
-    <form action="/car1" method="post">
-            <label class="label">Color</label>
-            <input id="username" type="text" name="c1" placeholder="Search Color">
-            <input id="button" type="submit" value="SEARCH">
-    </form>
-
-    <form action="/car2" method="post">
-            <label class="label">Year</label>
-            <input id="username" type="text" name="c2" placeholder="Search Year">
-            <input id="button" type="submit" value="SEARCH">
-    </form>
-
-    <form action="/car3" method="post">
-            <label class="label">Make</label>
-            <input id="username" type="text" name="c3" placeholder="Search Make">
-            <input id="button" type="submit" value="SEARCH">
-    </form>
-
-    <form action="/car4" method="post">
-            <label class="label">Model</label>
-            <input id="username" type="text" name="c4" placeholder="Search Model">
-            <input id="button" type="submit" value="SEARCH">
-    </form>
-
-    <form action="/car5" method="post">
-            <label class="label">Trim</label>
-            <input id="username" type="text" name="c5" placeholder="Search Trim Level">
-            <input id="button" type="submit" value="SEARCH">
-    </form>
-
-    <form action="/car6" method="post">
-            <label class="label">MSRP</label>
-            <input id="username" type="text" name="c6" placeholder="Search MSRP">
-            <input id="button" type="submit" value="SEARCH">
-    </form>
-
-    <form action="/car" method="post">
-        <div id="usrnm" class="txtf">
-            <label class="label">VIN #</label>
-            <input id="username" type="text" name="vin" placeholder="Find Car">
-            <input id="button" type="submit" value="SEARCH">
-        </div>
-    </form>
     <body>
         <div class = "outerbox">
         <h1 class="pagetitle">Inventory</h1>
-        <form action="/car" method="post">
-            <div id="usrnm" class="txtf">
-                <label class="label">VIN #</label>
-                <input id="username" type="text" name="vin" placeholder="Find Car">
-            </div>
-    
-            <div>
-                <input id="button" type="submit" value="SEARCH">
-            </div>
-        </form>
         <div class = "innerbox">
+            <div class = "filters">
+                <form method="POST" action="/cars">
+                    <input type="submit" value="All Vehicles" name="action1"/>
+                    <input type="submit" value="Cars For Sale" name="action2"/>
+                    <input type="submit" value="Cars In Repair" name="action3"/>
+                    <input type="submit" value="Cars Sold" name="action4"/>
+                </form>
+            </div>
         <table class="allCarTable">
             <tr>
-                <th>Color</th>
-                <th>Year</th>
-                <th>Make</th>
-                <th>Model</th>
-                <th>Trim Level</th>
-                <th>MSRP</th>
-                <th>VIN</th>
+                <th><form action="/car1" method="post">
+                    <label class="label">Color</label><br>
+                    <input id="username" type="text" name="c1" placeholder="Search Color">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th><form action="/car2" method="post">
+                    <label class="label">Year</label><br>
+                    <input id="username" type="text" name="c2" placeholder="Search Year">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th><form action="/car3" method="post">
+                    <label class="label">Make</label><br>
+                    <input id="username" type="text" name="c3" placeholder="Search Make">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th><form action="/car4" method="post">
+                    <label class="label">Model</label><br>
+                    <input id="username" type="text" name="c4" placeholder="Search Model">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th><form action="/car5" method="post">
+                    <label class="label">Trim Level</label><br>
+                    <input id="username" type="text" name="c5" placeholder="Search Trim Level">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th><form action="/car6" method="post">
+                    <label class="label">MSRP</label><br>
+                    <input id="username" type="text" name="c6" placeholder="Search MSRP">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th><form action="/car" method="post">
+                    <label class="label">VIN</label><br>
+                    <input id="username" type="text" name="vin" placeholder="Search VIN">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
             </tr>
             {% for cars in allCars %}
                 <tr>

@@ -18,42 +18,7 @@
                 </div>
             </div>
         </div>
-    <form action="/sales1" method="post">
-            <label class="label">Invoice No</label>
-            <input id="username" type="text" name="v1" placeholder="Search Invoice Number">
-            <input id="button" type="submit" value="SEARCH">
-    </form>
-
-    <form action="/sales2" method="post">
-            <label class="label">Date</label>
-            <input id="username" type="text" name="v2" placeholder="Search Date">
-            <input id="button" type="submit" value="SEARCH">
-    </form>
-
-        <form action="/sales" method="post">
-            <label class="label">Vin #</label>
-            <input id="username" type="text" name="vinS" placeholder="Search Vin #">
-            <input id="button" type="submit" value="SEARCH">
-    </form>
-
-
-        <form action="/sales3" method="post">
-            <label class="label">Salesrep</label>
-            <input id="username" type="text" name="v3" placeholder="Search Salesperson">
-            <input id="button" type="submit" value="SEARCH">
-    </form>
-
-        <form action="/sales4" method="post">
-            <label class="label">Customer</label>
-            <input id="username" type="text" name="v4" placeholder="Search Customer">
-            <input id="button" type="submit" value="SEARCH">
-    </form>
-
-        <form action="/sales5" method="post">
-            <label class="label">MSRP Sale</label>
-            <input id="username" type="text" name="v5" placeholder="Search MSRP">
-            <input id="button" type="submit" value="SEARCH">
-    </form>
+    
 
 
     </head>
@@ -63,32 +28,48 @@
         <h1 class="pagetitle">Sales Records</h1>
         <form action="/sales" method="post">
             <div id="usrnm" class="txtf">
-                <label class="label">VIN #</label>
-                <input id="username" type="text" name="vinS" placeholder="Find Car">
-            </div>
-    
-            <div>
-                <input id="button" type="submit" value="SEARCH">
+                <input id="username2" type="text" name="vinS" placeholder="Find Car">
+                <input id="button2" type="submit" value="SEARCH">
             </div>
         </form>
         <div class = "innerbox">
         <table>
             <tr>
-                <th>Invoice No</th>
-                <th>Date</th>
-                <th>Vehicle</th>
-                <th>Salesperson<br>Customer</th>
-                <th>MSRP<br>Sale</th>
-                
+                <th>Invoice No<form action="/sales1" method="post">
+                                <input id="username" type="text" name="v1" placeholder="Search Invoice Number">
+                                <input id="button" type="submit" value="&#128269;">
+                                </form></th>
+                <th>Date<form action="/sales2" method="post">
+                                <input id="username" type="text" name="v2" placeholder="Search Date">
+                                <input id="button" type="submit" value="&#128269;">
+                                </form></th>
+                <th>Vehicle<form action="/sales" method="post">
+                                <input id="username" type="text" name="vinS" placeholder="Search Vin #">
+                                <input id="button" type="submit" value="&#128269;">
+                                </form></th>
+                <th>Salesperson<form action="/sales3" method="post">
+                                <input id="username" type="text" name="v3" placeholder="Search Salesperson">
+                                <input id="button" type="submit" value="&#128269;">
+                                </form></th>
+                <th>Customer<form action="/sales4" method="post">
+                                <input id="username" type="text" name="v4" placeholder="Search Customer">
+                                <input id="button" type="submit" value="&#128269;">
+                                </form></th>
+                <th>MSRP<form action="/sales5" method="post">
+                                <input id="username" type="text" name="v5" placeholder="Search MSRP">
+                                <input id="button" type="submit" value="&#128269;">
+                                </form></th>
+                <th>Sale Price</th>
             </tr>
             {% for eachSale in sales %}
                 <tr>
                     <td>{{ eachSale.s_invoiceNo }}</td>
                     <td>{{ eachSale.s_date }}</td>
-                    <td class="bold">{{ eachSale.v_year }} {{ eachSale.v_make }} {{ eachSale.v_model}}</td>
-                    <td>{{ eachSale.sp_name }}<br>{{ eachSale.c_name}}</td>
-                    <td>$ {{ eachSale.s_MSRP}}.00<br>$ {{ eachSale.s_totalCost}}</td>
-                    
+                    <td class="bold"><a href="cars/{{ eachSale.s_VIN }}/0">{{ eachSale.v_year }} {{ eachSale.v_make }} {{ eachSale.v_model}}</a></td>
+                    <td>{{ eachSale.sp_name }}</td>
+                    <td>{{ eachSale.c_name}}</td>
+                    <td>$ {{ eachSale.s_MSRP}}.00</td>
+                    <td class="bold">$ {{ eachSale.s_totalCost}}</td>
                 </tr>
                 {% endfor %}
         </table>

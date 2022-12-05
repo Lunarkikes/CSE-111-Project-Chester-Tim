@@ -40,13 +40,14 @@
             <div class="carrecordbox">
                 <table class="serviceTable">
                     <tr>
-                        <th colspan="7"><h3>Previous Service Records:</h3></th>
+                        <th colspan="8"><h3>Previous Service Records:</h3></th>
                     </tr>
                     <tr>
                         <th>Work Order No</th>
                         <th>Date</th>
                         <th>Services</th>
                         <th>Part (Qty)</th>
+                        <th>Parts Cost</th>
                         <th>Equipment</th>
                         <th>Mechanic</th>
                         <th>Completed</th>
@@ -57,11 +58,30 @@
                         <td>{{ serv.sv_date }}</td>
                         <td>{{ serv.sv_serviceType }}</td>
                         <td>{{ serv.p_partName }} (x{{ serv.sv_partQty }})</td>
+                        <td>{{ serv.sv_partCost }}</td>
                         <td>{{ serv.e_name }}</td>
                         <td>{{ serv.m_name }}</td>
-                        <td>{{ serv.sv_completed }}</td>
+                        <td>{% if serv.sv_completed is sameas True%}
+                            <p style="color:green;">&#10004;</p>
+                            {% else %}
+                            <p style="color:red;display:inline;">&#10006;</p>
+                                                                <form class="complete" method="POST" action="/cars/{{thisCar.v_VIN}}/0">
+                                                                    <input type="submit" value="DONE" name="action0"/>
+                                                                    <input type="hidden" name="workNo" value={{serv.sv_workOrderNo}}  />
+                                                                </form>
+                            {% endif %}</td>
                     </tr>
                     {% endfor %}
+                    <tr>
+                        <td></td>
+                        <td></td>                        
+                        <td></td>
+                        <td>Total Parts Cost:</td>
+                        <td>$ {{sum}}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
                 </table>
             </div>
 

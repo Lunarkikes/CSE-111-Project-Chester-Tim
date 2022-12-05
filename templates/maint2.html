@@ -1,0 +1,125 @@
+<html>
+    <title>CSE111 Project</title>
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'>
+        
+    </script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <div class = "transbox">
+    <head>
+        <div class="headerbar">
+            <div class="headerbar-Links">
+                <p><a href={{ url_for('home') }}>Home</a> | 
+                    <a href={{ url_for('cars') }}>Vehicles</a> | 
+                    <a href={{ url_for('sales') }}>Sales Records</a> | 
+                    <a href={{ url_for('maint') }}>Maintenance Records</a> | 
+                    <a href={{ url_for('admin') }}>Admin</a>
+                    </p>
+                <div class="headerbar-Title">
+                    <h1 class="title">CarFAQs</h1>
+                </div>
+            </div>
+        </div>
+    </head>
+
+    <body> 
+        <div class="hideButton">
+            <button type="button" onclick="myFunction()">Add New Car & Customer Info</button> 
+        </div>
+        <script>
+            function myFunction() {
+                var x = document.getElementById("newCustBox");
+                    if (x.style.display === "block") {
+                        x.style.display = "none";
+                    } else {
+                        x.style.display = "block";
+                    }
+                } 
+        </script>
+
+        <div id="newCustBox" class="newCustBox"> 
+            <h4 class="newCustTitle">Add New Customer Car Repair</h4>
+            <form action="/new" method="POST">
+                <div class="cboxCustInfo">
+                Vehicle Info:<br>
+                <input type="text" name="newVIN" placeholder="Enter VIN"><br>
+                <input type="text" name="newyear" placeholder="Enter Year"><br>
+                <input type="text" name="newmake" placeholder="Enter Make"><br>
+                <input type="text" name="newmodel" placeholder="Enter Model">
+                </div>
+                <div class="cboxCarInfo">
+                Customer Info:<br>
+                <input type="text" name="newCustName" placeholder="Enter Full Name"><br>
+                <input type="text" name="newCustPhone" placeholder="Enter Phone Number"><br>
+                <input class="newSubmit" type="submit" value="Create">
+                </div>
+            </form>
+        </div>
+        
+        <div class = "outerbox">
+        <h1 class="pagetitle">Maintenance Records</h1>
+        <form action="/maintS" method="post">
+            <div id="usrnm" class="txtf">
+                <input id="username2" type="text" name="vinS" placeholder="Find Car">
+                <input id="button2" type="submit" value="SEARCH">
+            </div>
+        </form>
+
+        <div class = "innerbox">
+        <table class="allCarTable">
+            <tr>
+                <th>Work Order #<form action="/maint1" method="post">
+                    <input id="username" type="text" name="S1" placeholder="Search Work Order">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th>Date<form action="/maint3" method="post">
+                    <input id="username" type="text" name="S3" placeholder="Search Date">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th>Service Performed<form action="/maint2" method="post">
+                    <input id="username" type="text" name="S2" placeholder="Search Service Type">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th>Vehicle<form action="/maint4" method="post">
+                    <input id="username" type="text" name="S4" placeholder="Search VIN">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th>Parts Used (Qty)<form action="/maint5" method="post">
+                    <input id="username" type="text" name="S5" placeholder="Search Part">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th>Equipment Used<form action="/maint6" method="post">
+                    <input id="username" type="text" name="S6" placeholder="Search Equipment">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th>Mechanic<form action="/maint8" method="post">
+                    <input id="username" type="text" name="S8" placeholder="Search Mechanic">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th>Customer<form action="/maint7" method="post">
+                    <input id="username" type="text" name="S7" placeholder="Search Customer">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th>Completed?</th>
+            </tr>
+            {% for cars in maint %}
+                <tr>
+                    <td>{{ cars.sv_workOrderNo}}</td>
+                    <td>{{ cars.sv_date }}</td>
+                    <td>{{ cars.sv_serviceType }}</td>
+                    <td><a href="cars/{{ cars.v_VIN }}/0">{{ cars.v_year }} {{ cars.v_make }} {{ cars.v_model }}</a></td>
+                    <td>{{ cars.p_partName }} (x{{ cars.sv_partQty }})</td>
+                    <td>{{ cars.e_name }}</td>
+                    <td>{{ cars.m_name }}</td>
+                    <td>{{ cars.c_name }}</td>
+                    <td>{% if cars.sv_completed is sameas True%}
+                        <p style="color:green;">&#10004;</p>
+                        {% else %}
+                        <p style="color:red;">&#10006;</p>
+                        {% endif %}</td>
+                </tr>
+                {% endfor %}
+        </table>
+    </div>
+    </div>
+    </body>

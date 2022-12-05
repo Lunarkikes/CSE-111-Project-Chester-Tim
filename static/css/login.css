@@ -11,10 +11,7 @@ h1 {
     text-align: center;
 }
 
-.usrnm {
-    text-align: center;
-    justify-content: center;
-}
+
 
 table {
     /* border: 2px outset black; */
@@ -27,7 +24,7 @@ table {
 
 table.allCarTable {
     /* border: 2px outset black; */
-    border-radius: 20px;
+    border-radius: 10px;
 }
 
 th {
@@ -135,7 +132,10 @@ h4 {
 }
 
 .vColor {
-    padding: 10px 5px 10px 5px;
+    text-align: right;
+    justify-content: right;
+    padding: 12px;
+    /* width: 15px; */
     border: 1px ridge black;
     border-radius: 4px;
     background-image: linear-gradient( /* chrome */
@@ -144,9 +144,62 @@ h4 {
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
+.newCustBox {
+    display: none;
+    /* border: 2px black;*/
+    border-radius: 5px;
+    background-color: white; 
+    float:right;
+    position:absolute;
+    right: 20px;
+    top: 50px;
+    padding: 5px;
+    box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+}
 
+input[type=text] {
+    margin-bottom:2px;
+}
 
+.filters {
+    text-align: center;
+}
 
+form.complete {
+    position:relative;
+    top: 5px;
+    /* padding: 0px;
+    display: inline-block;
+    width:2px;
+    height: 10%; */
+    float:right;
+
+}
+
+.hideButton {
+    text-align:right;
+    position: relative;
+    right: 15px;
+    top:5px;
+}
+
+.cboxCustInfo,.cboxCarInfo{
+    float:left;
+    padding: 3px;
+}
+
+.newSubmit {
+    position:relative;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 12px;
+}
+
+h4.newCustTitle {
+    padding: 0px;
+    margin: 0px;
+    font-weight: 900;
+}
 
 .headerbar {
     background-color: white;
@@ -203,10 +256,32 @@ h1.pagetitle {
 
 }
 
-/* .bold {
-    font-weight: bolder;
+.bold {
+    font-weight:900;
 }
 
+#usrnm {
+    text-align: center;
+    justify-content: center;
+}
+#username {
+    width: 100px;
+}
+#username2 {
+    width: 200px;
+}
+#button{
+    margin-left:-4px;
+}
+#button2 {
+    text-align: center;
+}
+
+label.label, #username,#button {
+    position:relative;
+    top: 20px;
+}
+/*
 html{
     background-position: center;
     background-repeat: no-repeat;

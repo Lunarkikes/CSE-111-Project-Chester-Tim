@@ -19,147 +19,67 @@
             </div>
         </div>
     </head>
-
-    <body>
-        
-        <div class = "outerbox">
-        <h1 class="pagetitle">Maintenance Records</h1>
-        <form action="/maintS" method="post">
-            <div id="usrnm" class="txtf">
-                <label class="label">VIN #</label>
-                <input id="username" type="text" name="Svin" placeholder="Find Car">
-            </div>
-    
-            <div>
-                <input id="button" type="submit" value="SEARCH">
-            </div>
-        </form>
-        <div class = "innerbox">
-        <table class="allCarTable">
-            <tr>
-                <th>Work Order #</th>
-                <th>Date</th>
-                <th>Vehicle</th>
-                <th>Parts Used (Qty)</th>
-                <th>Equipment Used</th>
-                <th>Mechanic</th>
-                <th>Customer</th>
-                <th>Completed?</th>
-            </tr>
-            {% for cars in maint %}
-                <tr>
-                    <td>{{ cars.sv_workOrderNo}}</td>
-                    <td>{{ cars.sv_date }}</td>
-                    <td><a href="cars/{{ cars.v_VIN }}/0">{{ cars.v_year }} {{ cars.v_make }} {{ cars.v_model }}</a></td>
-                    <td>{{ cars.p_partName }} (x{{ cars.sv_partQty }})</td>
-                    <td>{{ cars.e_name }}</td>
-                    <td>{{ cars.m_name }}</td>
-                    <td>{{ cars.c_name }}</td>
-                    <td>{{ cars.sv_completed }}</td>
-                </tr>
-                {% endfor %}
-        </table>
-    </div>
-    </div>
-    </body>
-</html>
-<html>
-    <title>CSE111 Project</title>
-    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
-    <div class = "transbox">
-    <head>
-
-        <div class="headerbar">
-            <div class="headerbar-Links">
-                <p><a href={{ url_for('home') }}>Home</a> <a href={{ url_for('sales') }}>Sales</a> <a href={{ url_for('maint') }}>Maint</a></p>
-                <div class="headerbar-Title">
-                    <h1>CarFAQs</h1>
-                </div>
-            </div>
-        </div>
     </form>
-    <form action="/maint1" method="post">
-            <label class="label">Work Order Number</label>
-            <input id="username" type="text" name="S1" placeholder="Search Work Order">
-            <input id="button" type="submit" value="SEARCH">
-    </form>
-
-        <form action="/maint2" method="post">
-            <label class="label">Service Type</label>
-            <input id="username" type="text" name="S2" placeholder="Search Service Type">
-            <input id="button" type="submit" value="SEARCH">
-    </form>
-
-        <form action="/maint3" method="post">
-            <label class="label">Date</label>
-            <input id="username" type="text" name="S3" placeholder="Search Date">
-            <input id="button" type="submit" value="SEARCH">
-    </form>
-
-    <form action="/maint4" method="post">
-            <label class="label">Part Cost</label>
-            <input id="username" type="text" name="S4" placeholder="Search Part Cost">
-            <input id="button" type="submit" value="SEARCH">
-    </form>
-
-    <form action="/maint5" method="post">
-            <label class="label">Part Key</label>
-            <input id="username" type="text" name="S5" placeholder="Search Part">
-            <input id="button" type="submit" value="SEARCH">
-    </form>
-
-    <form action="/maint6" method="post">
-            <label class="label">Equipment Key</label>
-            <input id="username" type="text" name="S6" placeholder="Search Equipment">
-            <input id="button" type="submit" value="SEARCH">
-    </form>
-
-    <form action="/maint7" method="post">
-            <label class="label">Customer ID</label>
-            <input id="username" type="text" name="S7" placeholder="Search Customer">
-            <input id="button" type="submit" value="SEARCH">
-    </form>
-
-    <form action="/maint8" method="post">
-            <label class="label">Mechanic ID</label>
-            <input id="username" type="text" name="S8" placeholder="Search Mechanic">
-            <input id="button" type="submit" value="SEARCH">
-    </form>
-
-    <form action="/maint9" method="post">
-            <label class="label">Part Cost</label>
-            <input id="username" type="text" name="S9" placeholder="Search Part Cost">
-            <input id="button" type="submit" value="SEARCH">
-    </form>
-    <form action="/maint10" method="post">
-            <label class="label">Part Qty</label>
-            <input id="username" type="text" name="S10" placeholder="Search Part Qty">
-            <input id="button" type="submit" value="SEARCH">
-    </form>
-    <form action="/maint11" method="post">
-            <label class="label">Total Cost</label>
-            <input id="username" type="text" name="S11" placeholder="Search Total Cost">
-            <input id="button" type="submit" value="SEARCH">
-    </form>
-
     <body>
         <div class = "outerbox" >
         <div class = "innerbox">
         <table class="allMaintTable">
             <tr>
-                <th>WorkOrderNo</th>
-                <th>Service Type</th>
-                <th>Date</th>
-                <th>VIN</th>
-                <th>Part Key</th>
-                <th>Equipment Key</th>
-                <th>Customer ID</th>
-                <th>Mechanic ID</th>
-                <th>Part Cost</th>
-                <th>Part Qty</th>
-                <th>Total Cost</th>
+                <th><form action="/maint1" method="post">
+                    <label class="label">Work Order Number</label><br>
+                    <input id="username" type="text" name="S1" placeholder="Search Work Order">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th><form action="/maint2" method="post">
+                    <label class="label">Service Type</label><br>
+                    <input id="username" type="text" name="S2" placeholder="Search Service Type">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th><form action="/maint3" method="post">
+                    <label class="label">Date</label><br>
+                    <input id="username" type="text" name="S3" placeholder="Search Date">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th><form action="/maint4" method="post">
+                    <label class="label">VIN</label><br>
+                    <input id="username" type="text" name="S4" placeholder="Search VIN">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th><form action="/maint5" method="post">
+                    <label class="label">Part Key</label><br>
+                    <input id="username" type="text" name="S5" placeholder="Search Part">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th><form action="/maint6" method="post">
+                    <label class="label">Equipment Key</label><br>
+                    <input id="username" type="text" name="S6" placeholder="Search Equipment">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th><form action="/maint7" method="post">
+                    <label class="label">Customer ID</label><br>
+                    <input id="username" type="text" name="S7" placeholder="Search Customer">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th><form action="/maint8" method="post">
+                    <label class="label">Mechanic ID</label><br>
+                    <input id="username" type="text" name="S8" placeholder="Search Mechanic">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th><form action="/maint9" method="post">
+                    <label class="label">Part Cost</label><br>
+                    <input id="username" type="text" name="S9" placeholder="Search Part Cost">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th><form action="/maint10" method="post">
+                    <label class="label">Part Qty</label><br>
+                    <input id="username" type="text" name="S10" placeholder="Search Part Qty">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
+                <th><form action="/maint11" method="post">
+                    <label class="label">Completed?</label><br>
+                    <input id="username" type="text" name="S11" placeholder="Search Completed">
+                    <input id="button" type="submit" value="&#128269;">
+            </form></th>
             </tr>
             {% for cars in maint %}
                 <tr>
