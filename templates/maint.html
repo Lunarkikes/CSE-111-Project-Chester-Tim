@@ -63,3 +63,121 @@
     </div>
     </body>
 </html>
+<html>
+    <title>CSE111 Project</title>
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <div class = "transbox">
+    <head>
+
+        <div class="headerbar">
+            <div class="headerbar-Links">
+                <p><a href={{ url_for('home') }}>Home</a> <a href={{ url_for('sales') }}>Sales</a> <a href={{ url_for('maint') }}>Maint</a></p>
+                <div class="headerbar-Title">
+                    <h1>CarFAQs</h1>
+                </div>
+            </div>
+        </div>
+    </form>
+    <form action="/maint1" method="post">
+            <label class="label">Work Order Number</label>
+            <input id="username" type="text" name="S1" placeholder="Search Work Order">
+            <input id="button" type="submit" value="SEARCH">
+    </form>
+
+        <form action="/maint2" method="post">
+            <label class="label">Service Type</label>
+            <input id="username" type="text" name="S2" placeholder="Search Service Type">
+            <input id="button" type="submit" value="SEARCH">
+    </form>
+
+        <form action="/maint3" method="post">
+            <label class="label">Date</label>
+            <input id="username" type="text" name="S3" placeholder="Search Date">
+            <input id="button" type="submit" value="SEARCH">
+    </form>
+
+    <form action="/maint4" method="post">
+            <label class="label">Part Cost</label>
+            <input id="username" type="text" name="S4" placeholder="Search Part Cost">
+            <input id="button" type="submit" value="SEARCH">
+    </form>
+
+    <form action="/maint5" method="post">
+            <label class="label">Part Key</label>
+            <input id="username" type="text" name="S5" placeholder="Search Part">
+            <input id="button" type="submit" value="SEARCH">
+    </form>
+
+    <form action="/maint6" method="post">
+            <label class="label">Equipment Key</label>
+            <input id="username" type="text" name="S6" placeholder="Search Equipment">
+            <input id="button" type="submit" value="SEARCH">
+    </form>
+
+    <form action="/maint7" method="post">
+            <label class="label">Customer ID</label>
+            <input id="username" type="text" name="S7" placeholder="Search Customer">
+            <input id="button" type="submit" value="SEARCH">
+    </form>
+
+    <form action="/maint8" method="post">
+            <label class="label">Mechanic ID</label>
+            <input id="username" type="text" name="S8" placeholder="Search Mechanic">
+            <input id="button" type="submit" value="SEARCH">
+    </form>
+
+    <form action="/maint9" method="post">
+            <label class="label">Part Cost</label>
+            <input id="username" type="text" name="S9" placeholder="Search Part Cost">
+            <input id="button" type="submit" value="SEARCH">
+    </form>
+    <form action="/maint10" method="post">
+            <label class="label">Part Qty</label>
+            <input id="username" type="text" name="S10" placeholder="Search Part Qty">
+            <input id="button" type="submit" value="SEARCH">
+    </form>
+    <form action="/maint11" method="post">
+            <label class="label">Total Cost</label>
+            <input id="username" type="text" name="S11" placeholder="Search Total Cost">
+            <input id="button" type="submit" value="SEARCH">
+    </form>
+
+    <body>
+        <div class = "outerbox" >
+        <div class = "innerbox">
+        <table class="allMaintTable">
+            <tr>
+                <th>WorkOrderNo</th>
+                <th>Service Type</th>
+                <th>Date</th>
+                <th>VIN</th>
+                <th>Part Key</th>
+                <th>Equipment Key</th>
+                <th>Customer ID</th>
+                <th>Mechanic ID</th>
+                <th>Part Cost</th>
+                <th>Part Qty</th>
+                <th>Total Cost</th>
+            </tr>
+            {% for cars in maint %}
+                <tr>
+                    <td>{{ cars.sv_workOrderNo }}</td>
+                    <td>{{ cars.sv_serviceType }}</td>
+                    <td>{{ cars.sv_date }}</td>
+                    <td><a href="cars/{{ cars.sv_VIN}}">{{ cars.sv_VIN }}</a></td>
+                    <td>{{ cars.sv_partKey }}</td>
+                    <td>{{ cars.sv_equipmentKey }}</td>
+                    <td>{{ cars.sv_cID}}</td>
+                    <td>{{ cars.sv_mID }}</td>
+                    <td>{{ cars.sv_partCost }}</td>
+                    <td>{{ cars.sv_partQty }}</td>
+                    <td>{{ cars.sv_totalCost }}</td>
+                </tr>
+                {% endfor %}
+        </table>
+    </div>
+    </div>
+    </body>
+</html>
