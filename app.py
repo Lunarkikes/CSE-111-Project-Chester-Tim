@@ -1,22 +1,12 @@
 from flask import Flask, request, jsonify, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-# from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
-# from flask_wtf import FlaskForm
-# from flask_bcrypt import Bcrypt
-# from wtforms import StringField, PasswordField, SubmitField, SelectField
-# from wtforms.validators import InputRequired, Length, ValidationError
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.menu import MenuLink
 from sqlalchemy import func
-
 import pandas as pd
-
 import os
-
-
-
 
 app = Flask(__name__)
 CORS(app)
@@ -30,8 +20,6 @@ app.config['SECRET_KEY'] = 'miata'
 # app.config['SQLALCHEMY_ECHO'] = True #prints query to console for testing
 
 db = SQLAlchemy(app)
-
-   
 
 class Vehicle(db.Model):
     v_VIN = db.Column(db.String, primary_key = True)
@@ -105,9 +93,6 @@ class AdminModelView(ModelView):
     
     column_filters = ['v_VIN','v_year','v_make','v_model','v_trim','v_color','v_MSRP','v_status']
     page_size = 50
-
-
-
 
 admin.add_view(AdminModelView(Vehicle, db.session))
 
@@ -695,5 +680,3 @@ if __name__ == '__main__':
 
 with app.app_context():
     db.create_all()
-    # admin = create_admin(app=app)
-    # configure_admin(app, admin)
